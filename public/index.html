@@ -280,7 +280,7 @@
               
                 
                 <a class="post-title-link" href="/2017/04/13/mongodb/hello-world/" itemprop="url">
-                  Hello World
+                  auth认证
                 </a>
               
             
@@ -356,15 +356,26 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+            <h1 id="以auth认证方式启动"><a href="#以auth认证方式启动" class="headerlink" title="以auth认证方式启动"></a>以auth认证方式启动</h1><ul>
+<li><p>可以在config文件中加一项：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">auth: true</div></pre></td></tr></table></figure>
+</li>
+<li><p>可以在命令行中，添加一个option，<code>--auth</code></p>
+</li>
+</ul>
+<p>但是，如果mongodb中没有用户，认证是没有意义的。</p>
+<h1 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h1><ul>
+<li><p>选择库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 用户的存储也是基于库的。管理员用户的话，需要在admin中创建。创建的第一个用户即为管理员用户</div><div class="line">&gt; use admin</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建管理员用户</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">db.createUser(&#123;</div><div class="line">    user:&quot;root&quot;, </div><div class="line">    pwd:&quot;root&quot;, </div><div class="line">    roles:[</div><div class="line">     	&#123;</div><div class="line">            role:&quot;userAdminAnyDatabase&quot;, </div><div class="line">            db:&quot;admin&quot;</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建普通用户</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">db.createUser(&#123;</div><div class="line">    user:&quot;user1&quot;, </div><div class="line">    pwd:&quot;pwd1&quot;, </div><div class="line">    roles:[</div><div class="line">     	&#123;</div><div class="line">            role:&quot;readWrite&quot;, </div><div class="line">            db:&quot;db1&quot;</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h1><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// user所存储的库</div><div class="line">&gt; use admin</div><div class="line">&gt; db.auth(username, password)</div><div class="line">// 返回原数据库</div><div class="line">&gt; use blog</div></pre></td></tr></table></figure>
 
           
         
@@ -461,6 +472,15 @@
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
