@@ -1,39 +1,57 @@
 ---
-title: Hello World
+title: auth认证
 categories: mongodb
+tags: 
+    - database
+    - auth
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
-## Quick Start
+# 以auth认证方式启动
+- 可以在config文件中加一项：
+```
+auth: true
+```
+- 可以在命令行中，添加一个option，`--auth`
 
-### Create a new post
-
-``` bash
-$ hexo new "My New Post"
+但是，如果mongodb中没有用户，认证是没有意义的。
+# 创建用户
+- 选择库
+```
+// 用户的存储也是基于库的。管理员用户的话，需要在admin中创建。创建的第一个用户即为管理员用户
+> use admin
+```
+- 创建管理员用户
+```
+db.createUser({
+    user:"root", 
+    pwd:"root", 
+    roles:[
+     	{
+            role:"userAdminAnyDatabase", 
+            db:"admin"
+        }
+    ]
+})
+```
+- 创建普通用户
+```
+db.createUser({
+    user:"user1", 
+    pwd:"pwd1", 
+    roles:[
+     	{
+            role:"readWrite", 
+            db:"db1"
+        }
+    ]
+})
 ```
 
-More info: [Writing](https://hexo.io/docs/writing.html)
-
-### Run server
-
-``` bash
-$ hexo server
+# 登录
 ```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
+// user所存储的库
+> use admin
+> db.auth(username, password)
+// 返回原数据库
+> use blog
 ```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/deployment.html)
