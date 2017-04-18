@@ -1,0 +1,820 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="函数基本特点  go函数不支持嵌套、重载、和默认参数 但支持一下特性 无需声明原型 不定长度参数 多返回值 命名返回值参数 匿名函数 闭包   定义函数使用关键之func，且左大括号不能另起一行 函数可以作为一种类型使用书写格式func A() &amp;#123;&amp;#125;func B() int &amp;#123;	a := 2	return a&amp;#125;// 多返回值，多参数不同类型func C(a">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数，结构与接口">
+<meta property="og:url" content="http://yoursite.com/golang/函数，结构与接口/index.html">
+<meta property="og:site_name" content="chimps">
+<meta property="og:description" content="函数基本特点  go函数不支持嵌套、重载、和默认参数 但支持一下特性 无需声明原型 不定长度参数 多返回值 命名返回值参数 匿名函数 闭包   定义函数使用关键之func，且左大括号不能另起一行 函数可以作为一种类型使用书写格式func A() &amp;#123;&amp;#125;func B() int &amp;#123;	a := 2	return a&amp;#125;// 多返回值，多参数不同类型func C(a">
+<meta property="og:updated_time" content="2017-04-17T15:44:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="函数，结构与接口">
+<meta name="twitter:description" content="函数基本特点  go函数不支持嵌套、重载、和默认参数 但支持一下特性 无需声明原型 不定长度参数 多返回值 命名返回值参数 匿名函数 闭包   定义函数使用关键之func，且左大括号不能另起一行 函数可以作为一种类型使用书写格式func A() &amp;#123;&amp;#125;func B() int &amp;#123;	a := 2	return a&amp;#125;// 多返回值，多参数不同类型func C(a">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":30},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/golang/函数，结构与接口/"/>
+
+
+
+
+
+  <title> 函数，结构与接口 | chimps </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chimps</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/golang/函数，结构与接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chimps">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chimps">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                函数，结构与接口
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-17T23:40:56+08:00">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="基本特点"><a href="#基本特点" class="headerlink" title="基本特点"></a>基本特点</h2><blockquote>
+<ul>
+<li>go函数不支持嵌套、重载、和默认参数</li>
+<li>但支持一下特性<ul>
+<li>无需声明原型</li>
+<li>不定长度参数</li>
+<li>多返回值</li>
+<li>命名返回值参数</li>
+<li>匿名函数</li>
+<li>闭包</li>
+</ul>
+</li>
+<li>定义函数使用关键之func，且左大括号不能另起一行</li>
+<li>函数可以作为一种类型使用<h2 id="书写格式"><a href="#书写格式" class="headerlink" title="书写格式"></a>书写格式</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">A</span><span class="params">()</span></span> &#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">B</span><span class="params">()</span> <span class="title">int</span></span> &#123;</div><div class="line">	a := <span class="number">2</span></div><div class="line">	<span class="keyword">return</span> a</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 多返回值，多参数不同类型</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">C</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">int</span>, <span class="keyword">string</span>)</span></span> &#123;</div><div class="line">	a = <span class="number">2</span></div><div class="line">	b = <span class="string">"zhangsan"</span></div><div class="line">	<span class="keyword">return</span> a, b</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 多参数相同类型</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">D</span><span class="params">(a, b, c <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	a = <span class="number">1</span></div><div class="line">	<span class="keyword">return</span> a</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 函数定义时就已经定义了a,b,c</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">E</span><span class="params">()</span> <span class="params">(a, b, c <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	a, b, c = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span></div><div class="line">	<span class="keyword">return</span> a, b, c</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 不定参数</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">F</span><span class="params">(b <span class="keyword">string</span>, a ...<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h2 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h2><p>需要注意一点：<code>Go函数的参数传递方式是值传递</code><br>也就是说：</p>
+<ul>
+<li>如果参数本身是值类型，则复制一个值传递,如<code>struct</code></li>
+<li>如果参数本身是指针类型，则复制一个指针,如<code>slice</code></li>
+<li>所以，一般大的struct需要传递struct的指针</li>
+<li>一般对于slice则复制一个slice即可<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="comment">// 切片类型</span></div><div class="line">	a := []<span class="keyword">int</span>&#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</div><div class="line">	fmt.Println(a)</div><div class="line">	A(a)</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 由于切片类型是引用传递，所以函数内部改变，外部也随之</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">A</span><span class="params">(a []<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	a[<span class="number">1</span>] = <span class="number">2</span></div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 结果：</span></div><div class="line">[<span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>]</div><div class="line">[<span class="number">2</span> <span class="number">2</span> <span class="number">4</span> <span class="number">5</span>]</div><div class="line">[<span class="number">2</span> <span class="number">2</span> <span class="number">4</span> <span class="number">5</span>]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>如果需要正常传递指针<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="comment">// 切片类型</span></div><div class="line">	a := <span class="number">1</span></div><div class="line">	fmt.Println(a)</div><div class="line">	A(&amp;a)</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 传递一个指针</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">A</span><span class="params">(a *<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	*a = <span class="number">2</span></div><div class="line">	<span class="comment">// 打印a的值</span></div><div class="line">	fmt.Println(a)</div><div class="line">	<span class="comment">// 打印指针a对应的值</span></div><div class="line">	fmt.Println(*a)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 结果：</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">0xc82000a2c0</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">2</span></div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	f := clause(<span class="number">20</span>)</div><div class="line">	fmt.Println(f(<span class="number">2</span>))</div><div class="line">	fmt.Println(f(<span class="number">5</span>))</div><div class="line">&#125;</div><div class="line"><span class="comment">// 匿名函数</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">clause</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	fmt.Println(&amp;x)</div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(y <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">		fmt.Println(&amp;x)</div><div class="line">		<span class="keyword">return</span> x + y</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//结果：</span></div><div class="line"><span class="number">0xc82000a2c0</span></div><div class="line"><span class="number">0xc82000a2c0</span></div><div class="line"><span class="number">22</span></div><div class="line"><span class="number">0xc82000a2c0</span></div><div class="line"><span class="number">25</span></div><div class="line"><span class="comment">// 可以看出，三次地址是相同的，也就是说用的是同一个变量</span></div><div class="line"></div><div class="line"><span class="comment">//但是，如果换一种写法</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := <span class="number">3</span></div><div class="line">	f := <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">		fmt.Println(&amp;a)</div><div class="line">		<span class="keyword">return</span> x * a</div><div class="line">	&#125;</div><div class="line">	fmt.Println(&amp;a)</div><div class="line">	fmt.Println(f(<span class="number">4</span>))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 结果：</span></div><div class="line"><span class="number">0xc820064028</span></div><div class="line"><span class="number">0xc820064028</span></div><div class="line"><span class="number">12</span></div><div class="line"><span class="comment">// 也就是说,用的是同一个变量，并没有什么变量传递问题</span></div></pre></td></tr></table></figure>
+<h2 id="不定参数"><a href="#不定参数" class="headerlink" title="不定参数"></a>不定参数</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 代码：</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	slice := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</div><div class="line">	test(slice...)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">(args ...<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> args &#123;</div><div class="line">		fmt.Println(k, v)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 运行：</span></div><div class="line">/chimps/web_back/<span class="keyword">go</span>/src/full_text_search <span class="keyword">go</span> run test.<span class="keyword">go</span></div><div class="line"><span class="number">0</span> <span class="number">1</span></div><div class="line"><span class="number">1</span> <span class="number">2</span></div><div class="line"><span class="number">2</span> <span class="number">3</span></div><div class="line"><span class="number">3</span> <span class="number">4</span></div></pre></td></tr></table></figure>
+<h1 id="Defer"><a href="#Defer" class="headerlink" title="Defer"></a>Defer</h1><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>类似于析构函数，在函数体执行结束之后按照调用顺序的<code>相反顺序</code>逐个执行</li>
+<li>即使函数发生严重错误也会执行</li>
+<li>支持匿名函数的调用</li>
+<li>常用与资源清理、文件关闭、解锁以及记录时间等操作</li>
+<li>通过与匿名函数配合可在return之后修改函数计算结果</li>
+<li>如果函数体内某个变量作为defer时匿名函数的参数，则在定义defer时已经获得了拷贝，否则则是引用某个变量的地址</li>
+<li>Go没有异常机制，但有panic/revover模式来处理错误</li>
+<li>panic可以在任何地方引发，但recover只有在defer调用的函数中有效</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">//示例：</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	A()</div><div class="line">	B()</div><div class="line">	C()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">A</span><span class="params">()</span></span> &#123;</div><div class="line">	fmt.Println(<span class="string">"this is func A"</span>)</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">B</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">		<span class="keyword">if</span> err := <span class="built_in">recover</span>(); err != <span class="literal">nil</span> &#123;</div><div class="line">			fmt.Println(<span class="string">"recover in B"</span>)</div><div class="line">		&#125;</div><div class="line">	&#125;()</div><div class="line">	<span class="built_in">panic</span>(<span class="string">"panic in B"</span>)</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">C</span><span class="params">()</span></span> &#123;</div><div class="line">	fmt.Println(<span class="string">"this is func C"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果：</span></div><div class="line">this is <span class="function"><span class="keyword">func</span> <span class="title">A</span></span></div><div class="line"><span class="title">recover</span> <span class="title">in</span> <span class="title">B</span></div><div class="line"><span class="title">this</span> <span class="title">is</span> <span class="title">func</span> <span class="title">C</span></div></pre></td></tr></table></figure>
+<h2 id="panic"><a href="#panic" class="headerlink" title="panic"></a>panic</h2><blockquote>
+<p>　　panic 是用来表示非常严重的不可恢复的错误的。在Go语言中这是一个内置函数，接收一个interface{}类型的值（也就是任何值了）作为参数。panic的作用就像我们平常接触的异常。不过Go可没有try…catch，所以，panic一般会导致程序挂掉（除非recover）。所以，Go语言中的异常，那真的是异常了。你可以试试，调用panic看看，程序立马挂掉，然后Go运行时会打印出调用栈。<br>　　但是，关键的一点是，即使函数执行的时候panic了，函数不往下走了，运行时并不是立刻向上传递panic，而是到defer那，等defer的东西都跑完了，panic再向上传递。所以这时候 defer 有点类似 try-catch-finally 中的 finally。<br>　　panic就是这么简单。抛出个真正意义上的异常。</p>
+<h2 id="recover"><a href="#recover" class="headerlink" title="recover"></a>recover</h2><p>　　上面说到，panic的函数并不会立刻返回，而是先defer，再返回。这时候（defer的时候），如果有办法将panic捕获到，并阻止panic传递，那就异常的处理机制就完善了。<br>　　Go语言提供了recover内置函数，前面提到，一旦panic，逻辑就会走到defer那，那我们就在defer那等着，调用recover函数将会捕获到当前的panic（如果有的话），被捕获到的panic就不会向上传递了，于是，世界恢复了和平。你可以干你想干的事情了。<br>　　不过要注意的是，recover之后，逻辑并不会恢复到panic那个点去，函数还是会在defer之后返回</p>
+</blockquote>
+<h1 id="结构struct"><a href="#结构struct" class="headerlink" title="结构struct"></a>结构struct</h1><h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><blockquote>
+<ul>
+<li>使用 type <name> struct{}定义</name></li>
+<li>支持匿名结构，可用做成员或成员变量</li>
+<li>匿名结构也可用于map的值</li>
+<li>可以使用字面值对结构进行初始化</li>
+<li>允许直接通过指针读取结构成员</li>
+<li>相同类型的成员可以进行直接拷贝赋值</li>
+<li>支持 == 与 != 比较运算符，但不支持&gt;或&lt;</li>
+<li>支持匿名字段，本质上是定义了以某个类型名为名称的字段</li>
+<li>嵌入结构作为匿名字段看起来像继承，但不是继承</li>
+<li>可以使用匿名字段指针<h2 id="使用格式"><a href="#使用格式" class="headerlink" title="使用格式"></a>使用格式</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 一般格式</span></div><div class="line"><span class="keyword">type</span> person <span class="keyword">struct</span> &#123;</div><div class="line">	Name <span class="keyword">string</span></div><div class="line">	Age  <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := person&#123;&#125;</div><div class="line">	a.Name = <span class="string">"zhangsan"</span></div><div class="line">	a.Age = <span class="number">12</span></div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 使用字面值进行初始化</span></div><div class="line">a := person&#123;</div><div class="line">	Name: <span class="string">"zhangsna"</span>,</div><div class="line">	Age:  <span class="number">15</span>,</div><div class="line">&#125;</div><div class="line">fmt.Println(a)</div><div class="line"><span class="comment">//结果：</span></div><div class="line">&#123;zhangsna <span class="number">15</span>&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>作为函数参数时，按值传递<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func main() &#123;</div><div class="line">	a := person&#123;</div><div class="line">		Name: &quot;zhangsna&quot;,</div><div class="line">		Age:  15,</div><div class="line">	&#125;</div><div class="line">	fmt.Println(a)</div><div class="line">	A(a)</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"></div><div class="line">func A(per person) &#123;</div><div class="line">	per.Name = &quot;lisi&quot;</div><div class="line">	fmt.Println(per)</div><div class="line">&#125;</div><div class="line">//结果：</div><div class="line">&#123;zhangsna 15&#125;</div><div class="line">&#123;lisi 15&#125;</div><div class="line">&#123;zhangsna 15&#125;</div></pre></td></tr></table></figure></p>
+<p>一般情况下，我们为了节省内存空间，都使用引用传值，引用传值有两种方案<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := person&#123;</div><div class="line">		Name: <span class="string">"zhangsna"</span>,</div><div class="line">		Age:  <span class="number">15</span>,</div><div class="line">	&#125;</div><div class="line">	fmt.Println(a)</div><div class="line">	A(&amp;a)</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">A</span><span class="params">(per *person)</span></span> &#123;</div><div class="line">	per.Name = <span class="string">"lisi"</span></div><div class="line">	fmt.Println(per)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 但是，如果这样的话太麻烦，一般情况下我们都这样使用：</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := &amp;person&#123;</div><div class="line">		Name: <span class="string">"zhangsna"</span>,</div><div class="line">		Age:  <span class="number">15</span>,</div><div class="line">	&#125;</div><div class="line">	fmt.Println(a)</div><div class="line">	A(a)</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">A</span><span class="params">(per *person)</span></span> &#123;</div><div class="line">    <span class="comment">// 我们可以直接对结构的指针进行这样的操作</span></div><div class="line">	per.Name = <span class="string">"lisi"</span></div><div class="line">	fmt.Println(per)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果：</span></div><div class="line">&amp;&#123;zhangsna <span class="number">15</span>&#125;</div><div class="line">&amp;&#123;lisi <span class="number">15</span>&#125;</div><div class="line">&amp;&#123;lisi <span class="number">15</span>&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h2><blockquote>
+<p>在go语言的一个struct中，除了变量名和类型之外，还可以选择性的增加一些tag：tag可以在类型的后面，用双引号(double quote)或重音(backquote/grave accent)表示的字符串。这些符号能被用来做文档或重要的标签。<br>tag里面的内容在正常编程中没有作用。只有在使用反射的时候才有作用。反射的包可以让我们在运行时获取到变量的类型，属性以及方法。比如reflect.TypeOf()就可以返回一个变量的类型。如果是一个struct类型，可以按照每一个变量索引，来查询每一个的tag。</p>
+</blockquote>
+<p>例：<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</div><div class="line">    <span class="comment">// 与json中的user_id对应，bson中的user_id对应</span></div><div class="line">    UserId   <span class="keyword">int</span>    <span class="string">`json:"user_id" bson:"user_id"`</span></div><div class="line">    UserName <span class="keyword">string</span> <span class="string">`json:"user_name" bson:"user_name"`</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="匿名结构，匿名字段"><a href="#匿名结构，匿名字段" class="headerlink" title="匿名结构，匿名字段"></a>匿名结构，匿名字段</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := &amp;<span class="keyword">struct</span> &#123;</div><div class="line">		Name <span class="keyword">string</span></div><div class="line">		Age  <span class="keyword">int</span></div><div class="line">	&#125;&#123;</div><div class="line">		Name: <span class="string">"jobs"</span>,</div><div class="line">		Age:  <span class="number">22</span>,</div><div class="line">	&#125;</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 另一种匿名结构</span></div><div class="line"><span class="keyword">type</span> person <span class="keyword">struct</span> &#123;</div><div class="line">	Name    <span class="keyword">string</span></div><div class="line">	Age     <span class="keyword">int</span></div><div class="line">	contact <span class="keyword">struct</span> &#123;</div><div class="line">		Phone, City <span class="keyword">string</span></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := person&#123;Name: <span class="string">"zhangsan"</span>, Age: <span class="number">22</span>&#125;</div><div class="line">	a.contact.Phone = <span class="string">"123123123"</span></div><div class="line">	a.contact.City = <span class="string">"beijing"</span></div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果：</span></div><div class="line">&#123;zhangsan <span class="number">22</span> &#123;<span class="number">123123123</span> beijing&#125;&#125;</div><div class="line"></div><div class="line"><span class="comment">// 匿名字段,</span></div><div class="line"><span class="keyword">type</span> person <span class="keyword">struct</span> &#123;</div><div class="line">	<span class="keyword">string</span></div><div class="line">	<span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 顺序必须一致</span></div><div class="line">	a := person&#123;<span class="string">"zhangsan"</span>, <span class="number">22</span>&#125;</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><blockquote>
+<p>结构类型的比较，是看结构下每个字段的值是否相同，是否是同一个结构类型<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">type</span> person <span class="keyword">struct</span> &#123;</div><div class="line">	<span class="keyword">string</span></div><div class="line">	<span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := person&#123;<span class="string">"zhangsan"</span>, <span class="number">22</span>&#125;</div><div class="line">	b := person&#123;<span class="string">"zhangsan"</span>, <span class="number">22</span>&#125;</div><div class="line">	fmt.Println(a == b)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果：</span></div><div class="line"><span class="literal">true</span></div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="组合（继承）"><a href="#组合（继承）" class="headerlink" title="组合（继承）"></a>组合（继承）</h2><blockquote>
+<p>这里并不是继承，而是将大家都用的结构提取出来罢了<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">type</span> humen <span class="keyword">struct</span> &#123;</div><div class="line">	Sex <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> teacher <span class="keyword">struct</span> &#123;</div><div class="line">	humen</div><div class="line">	Name <span class="keyword">string</span></div><div class="line">	Age  <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> student <span class="keyword">struct</span> &#123;</div><div class="line">	humen</div><div class="line">	Name <span class="keyword">string</span></div><div class="line">	Age  <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 一般都是用这种模式</span></div><div class="line">	a := teacher&#123;Name: <span class="string">"zhangsan"</span>, Age: <span class="number">22</span>, humen: humen&#123;Sex: <span class="number">0</span>&#125;&#125;</div><div class="line">	b := student&#123;Name: <span class="string">"lisi"</span>, Age: <span class="number">22</span>, humen: humen&#123;Sex: <span class="number">1</span>&#125;&#125;</div><div class="line">	<span class="comment">// 可以直接这样写，十分方便</span></div><div class="line">	a.Sex = <span class="number">13</span></div><div class="line">	<span class="comment">// 当然也可以这样写,在命名冲突时，这样写是十分有用的</span></div><div class="line">	a.humen.Sex = <span class="number">13</span></div><div class="line">	b.Sex = <span class="number">100</span></div><div class="line">	fmt.Println(a, b)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><blockquote>
+<p>一般使用格式<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">type</span> A <span class="keyword">struct</span> &#123;</div><div class="line">	Name <span class="keyword">string</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a := A&#123;Name: <span class="string">"lisi"</span>&#125;</div><div class="line">	fmt.Println(a)</div><div class="line">	a.Print()</div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *A)</span> <span class="title">Print</span><span class="params">()</span></span> &#123;</div><div class="line">	a.Name = <span class="string">"zhangsan"</span></div><div class="line">	fmt.Println(a)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果</span></div><div class="line">&#123;lisi&#125;</div><div class="line">&amp;&#123;zhangsan&#125;</div><div class="line">&#123;zhangsan&#125;</div></pre></td></tr></table></figure></p>
+<p>给普通变量增加方法</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">type</span> TZ <span class="keyword">int</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">var</span> a TZ</div><div class="line">	a.Print()</div><div class="line">&#125;</div><div class="line"><span class="comment">// a *TZ作为函数的第一个且必须的参数，由此来绑定方法和变量（对象）</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *TZ)</span> <span class="title">Print</span><span class="params">()</span></span> &#123;</div><div class="line">	fmt.Println(<span class="string">"TZ"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果：</span></div><div class="line">TZ</div></pre></td></tr></table></figure>
+<blockquote>
+<p>对私有变量的访问权限（私有变量的范围是本包）</p>
+<h1 id="接口interface"><a href="#接口interface" class="headerlink" title="接口interface"></a>接口interface</h1><h2 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>接口是一个或多个方法签名的集合</li>
+<li>只要某个类型拥有该接口的所有方法签名，即算实现该接口，无需显示声明实现了哪个接口，这称为Structural Typing</li>
+<li>接口只有方法声明，没有实现，没有数据字段</li>
+<li>接口可以匿名嵌入其他接口，或嵌入到结构中</li>
+<li>将对象赋值给接口时，会发生拷贝，而接口内部存储的是指向这个复制品的指针，既无法修改复制品的状态，也无法获取指针</li>
+<li>只有当接口存储的接口类型和对象都为nil时，接口才等于nil</li>
+<li>接口调用不会做receiver的自动转换</li>
+<li>接口同样支持匿名字段方法</li>
+<li>接口也可实现类似OOP中的多态</li>
+<li>空接口可以作为任何类型数据的容器<h2 id="实现一个接口"><a href="#实现一个接口" class="headerlink" title="实现一个接口"></a>实现一个接口</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">type</span> USB <span class="keyword">interface</span> &#123;</div><div class="line">	Name() <span class="keyword">string</span></div><div class="line">	Connect()</div><div class="line">&#125;</div><div class="line"><span class="keyword">type</span> PhoneConnecter <span class="keyword">struct</span> &#123;</div><div class="line">	name <span class="keyword">string</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pc PhoneConnecter)</span> <span class="title">Name</span><span class="params">()</span> <span class="title">string</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> pc.name</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pc PhoneConnecter)</span> <span class="title">Connect</span><span class="params">()</span></span> &#123;</div><div class="line">	fmt.Println(pc.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">var</span> a USB</div><div class="line">	a = PhoneConnecter&#123;<span class="string">"PhoneConnecter"</span>&#125;</div><div class="line">	a.Connect()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h2 id="interface变量存储的类型"><a href="#interface变量存储的类型" class="headerlink" title="interface变量存储的类型"></a>interface变量存储的类型</h2><blockquote>
+<p>　　我们知道interface的变量里面可以存储任意类型的数值(该类型实现了interface)。那么我们怎么反向知道这个变量里面实际保存了的是哪个类型的对象呢？目前常用的有两种方法：</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/golang/并发编程/" rel="next" title="并发编程">
+                <i class="fa fa-chevron-left"></i> 并发编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/linux/进程管理/" rel="prev" title="进程管理">
+                进程管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="chimps" />
+          <p class="site-author-name" itemprop="name">chimps</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">1.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本特点"><span class="nav-number">1.1.</span> <span class="nav-text">基本特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#书写格式"><span class="nav-number">1.2.</span> <span class="nav-text">书写格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数传递"><span class="nav-number">1.3.</span> <span class="nav-text">参数传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名函数"><span class="nav-number">1.4.</span> <span class="nav-text">匿名函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不定参数"><span class="nav-number">1.5.</span> <span class="nav-text">不定参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Defer"><span class="nav-number">2.</span> <span class="nav-text">Defer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">2.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#panic"><span class="nav-number">2.2.</span> <span class="nav-text">panic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#recover"><span class="nav-number">2.3.</span> <span class="nav-text">recover</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结构struct"><span class="nav-number">3.</span> <span class="nav-text">结构struct</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特点-1"><span class="nav-number">3.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用格式"><span class="nav-number">3.2.</span> <span class="nav-text">使用格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tag"><span class="nav-number">3.3.</span> <span class="nav-text">tag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名结构，匿名字段"><span class="nav-number">3.4.</span> <span class="nav-text">匿名结构，匿名字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较"><span class="nav-number">3.5.</span> <span class="nav-text">比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合（继承）"><span class="nav-number">3.6.</span> <span class="nav-text">组合（继承）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">3.7.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接口interface"><span class="nav-number">4.</span> <span class="nav-text">接口interface</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特点-2"><span class="nav-number">4.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现一个接口"><span class="nav-number">4.2.</span> <span class="nav-text">实现一个接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interface变量存储的类型"><span class="nav-number">4.3.</span> <span class="nav-text">interface变量存储的类型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chimps</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

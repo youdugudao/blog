@@ -1,0 +1,776 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Goroutine特点 Goroutine是Go并行设计的核心。goroutine说到底其实就是线程，但是它比线程更小，十几个goroutine可能体现在底层就是五六个线程，Go语言内部帮你实现了这些goroutine之间的内存共享。执行goroutine只需极少的栈内存(大概是4~5KB)，当然会根据相应的数据伸缩。也正因为如此，可同时运行成千上万个并发任务。goroutine比thread更易">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并发编程">
+<meta property="og:url" content="http://yoursite.com/golang/并发编程/index.html">
+<meta property="og:site_name" content="chimps">
+<meta property="og:description" content="Goroutine特点 Goroutine是Go并行设计的核心。goroutine说到底其实就是线程，但是它比线程更小，十几个goroutine可能体现在底层就是五六个线程，Go语言内部帮你实现了这些goroutine之间的内存共享。执行goroutine只需极少的栈内存(大概是4~5KB)，当然会根据相应的数据伸缩。也正因为如此，可同时运行成千上万个并发任务。goroutine比thread更易">
+<meta property="og:updated_time" content="2017-04-17T15:47:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="并发编程">
+<meta name="twitter:description" content="Goroutine特点 Goroutine是Go并行设计的核心。goroutine说到底其实就是线程，但是它比线程更小，十几个goroutine可能体现在底层就是五六个线程，Go语言内部帮你实现了这些goroutine之间的内存共享。执行goroutine只需极少的栈内存(大概是4~5KB)，当然会根据相应的数据伸缩。也正因为如此，可同时运行成千上万个并发任务。goroutine比thread更易">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":30},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/golang/并发编程/"/>
+
+
+
+
+
+  <title> 并发编程 | chimps </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chimps</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/golang/并发编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chimps">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chimps">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                并发编程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-17T23:44:57+08:00">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Goroutine"><a href="#Goroutine" class="headerlink" title="Goroutine"></a>Goroutine</h1><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>Goroutine是Go并行设计的核心。goroutine说到底其实就是线程，但是它比线程更小，十几个goroutine可能体现在底层就是五六个线程，Go语言内部帮你实现了这些goroutine之间的内存共享。执行goroutine只需极少的栈内存(大概是4~5KB)，当然会根据相应的数据伸缩。也正因为如此，可同时运行成千上万个并发任务。goroutine比thread更易用、更高效、更轻便。</li>
+<li>Goroutine奉行通过通讯来共享内存，而不是共享内存来通讯<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">type</span> c <span class="keyword">struct</span> &#123;</div><div class="line">	word   <span class="keyword">string</span></div><div class="line">	wordId <span class="keyword">int</span></div><div class="line">	err    error</div><div class="line">	place  <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	cpunum := runtime.NumCPU()</div><div class="line">	runtime.GOMAXPROCS(cpunum)</div><div class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> c, <span class="number">100</span>)</div><div class="line">	t1 := time.Now().Unix()</div><div class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">300</span>; i++ &#123;</div><div class="line">		<span class="keyword">go</span> test(i, ch)</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">300</span>; i++ &#123;</div><div class="line">		<span class="keyword">select</span> &#123;</div><div class="line">		<span class="keyword">case</span> res := &lt;-ch:</div><div class="line">			fmt.Println(res)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	t2 := time.Now().Unix()</div><div class="line">	log.Println(t2, t1)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">(i <span class="keyword">int</span>, ch <span class="keyword">chan</span> c)</span></span> &#123;</div><div class="line">	time.Sleep(time.Second)</div><div class="line">	res := c&#123;<span class="string">"test"</span>, i, <span class="literal">nil</span>, <span class="number">0</span>&#125;</div><div class="line">	ch &lt;- res</div><div class="line">	<span class="keyword">return</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h1><h2 id="操作符-lt"><a href="#操作符-lt" class="headerlink" title="操作符&lt;-"></a>操作符<code>&lt;-</code></h2><p>如果通过管道发送一个值，则将&lt;-作为二元操作符使用。通过管道接收一个值，则将其作为一元操作符使用:<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line">ic &lt;- <span class="number">3</span>        <span class="comment">// 往管道发送3</span></div><div class="line">work := &lt;-wc    <span class="comment">// 从管道接收一个指向Work类型值的指针</span></div></pre></td></tr></table></figure></p>
+<h2 id="channel特点"><a href="#channel特点" class="headerlink" title="channel特点"></a>channel特点</h2><blockquote>
+<ul>
+<li>Channel是Goroutine沟通的桥梁，大部分是阻塞同步的</li>
+<li>通过make创建，close关闭</li>
+<li>channel是引用类型</li>
+<li>可以使用for range来迭代不断的操作</li>
+<li>可以设置单向或双向通道</li>
+<li><p>可以设置缓存大小，在未被填满之前不会发生阻塞</p>
+<h2 id="通道阻塞"><a href="#通道阻塞" class="headerlink" title="通道阻塞"></a>通道阻塞</h2><p>对于无缓冲的channel,<code>通道的发送/接收操作在对方准备好之前是阻塞</code></p>
+</li>
+<li><p>对于同一个通道，发送操作（协程或者函数中的），在接收者准备好之前是阻塞的：如果ch中的数据无人接收，就无法再给通道传入其他数据：新的输入无法在通道非空的情况下传入。所以发送操作会等待 ch 再次变为可用状态：就是通道值被接收时（可以传入变量）。</p>
+</li>
+<li>对于同一个通道，接收操作是阻塞的（协程或函数中的），直到发送者可用：如果通道中没有数据，接收者就阻塞了。<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</div><div class="line">    <span class="keyword">go</span> pump(ch1)       <span class="comment">// pump hangs</span></div><div class="line">    <span class="comment">// 只是接受结果一次，也就是说，下面的send方再插入一个1，2就插入不进去了，阻塞了</span></div><div class="line">    fmt.Println(&lt;-ch1) <span class="comment">// prints only 0</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">pump</span><span class="params">(ch <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; ; i++ &#123;</div><div class="line">        ch &lt;- i</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果：0</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h2 id="常见错误示例："><a href="#常见错误示例：" class="headerlink" title="常见错误示例："></a>常见错误示例：</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">f1</span><span class="params">(in <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    fmt.Println(&lt;-in)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    out := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</div><div class="line">    out &lt;- <span class="number">2</span></div><div class="line">    <span class="keyword">go</span> f1(out)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述例子会照成死锁，原因很简单，一般通讯的话，有两种情况</p>
+<ul>
+<li>没有缓冲时，需要最少<code>两个goroutine</code>准备好</li>
+<li>有缓冲时，则是<code>goroutine - 中间缓冲层 - goroutine</code>之间的连接。</li>
+</ul>
+<h2 id="demo实例"><a href="#demo实例" class="headerlink" title="demo实例"></a>demo实例</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="comment">// 使用make创建一个channel</span></div><div class="line">	channel := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">		fmt.Println(<span class="string">"gogogo"</span>)</div><div class="line">		<span class="comment">// 向channel存数据</span></div><div class="line">		channel &lt;- <span class="literal">true</span></div><div class="line">		<span class="comment">// 关闭channel</span></div><div class="line">		<span class="built_in">close</span>(channel)</div><div class="line">	&#125;()</div><div class="line">	<span class="comment">// 迭代channel</span></div><div class="line">	<span class="keyword">for</span> v := <span class="keyword">range</span> channel &#123;</div><div class="line">		fmt.Println(v)</div><div class="line">	&#125;</div><div class="line">	fmt.Println(<span class="string">"this is base"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果</span></div><div class="line">➜  first <span class="keyword">go</span> run helloworld.<span class="keyword">go</span></div><div class="line">gogogo</div><div class="line"><span class="literal">true</span></div><div class="line">this is base</div></pre></td></tr></table></figure>
+<blockquote>
+<p>由结果可以看出：先迭代完成才会进行下一步操作， 也就是说，迭代的过程是阻塞的，如果channel中没有值，迭代就会一直等待，一直等到它有值，<br>如果channel没有关闭，则会发生死锁（deadlock）</p>
+<h2 id="带缓冲的channel"><a href="#带缓冲的channel" class="headerlink" title="带缓冲的channel"></a>带缓冲的channel</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>, <span class="number">4</span>)</div><div class="line">	ch &lt;- <span class="string">"zhangsan1"</span></div><div class="line">	ch &lt;- <span class="string">"zhangsan2"</span></div><div class="line">	ch &lt;- <span class="string">"zhangsan3"</span></div><div class="line">	ch &lt;- <span class="string">"zhangsan4"</span></div><div class="line">	<span class="comment">// 如果加上这一行，则会死锁，是因为当超过缓冲区的时候，就成阻塞模式了</span></div><div class="line">	<span class="comment">//ch &lt;- "zhangsan5"</span></div><div class="line">	<span class="built_in">close</span>(ch)</div><div class="line">	fmt.Println(&lt;-ch)</div><div class="line">	fmt.Println(&lt;-ch)</div><div class="line">	fmt.Println(&lt;-ch)</div><div class="line">	fmt.Println(&lt;-ch)</div><div class="line">	fmt.Println(&lt;-ch)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 结果</span></div><div class="line">➜  first <span class="keyword">go</span> run helloworld.<span class="keyword">go</span></div><div class="line">zhangsan1</div><div class="line">zhangsan2</div><div class="line">zhangsan3</div><div class="line">zhangsan4</div><div class="line">         <span class="comment">// 此处为string零值</span></div></pre></td></tr></table></figure>
+<p>可以看出带缓冲的channel略有不同。尽管已经close了，但我们依旧可以从中读出关闭前写入的3个值。第四次读取时，则会返回该channel类型的零值。向这类channel写入操作也会触发panic。</p>
+<h2 id="channel常与range配合"><a href="#channel常与range配合" class="headerlink" title="channel常与range配合"></a>channel常与range配合</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</div><div class="line">	<span class="keyword">go</span> generate(ch)</div><div class="line">	<span class="keyword">for</span> v := <span class="keyword">range</span> ch &#123;</div><div class="line">		fmt.Printf(<span class="string">"%s\n"</span>, v)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">generate</span><span class="params">(ch <span class="keyword">chan</span> <span class="keyword">string</span>)</span></span> &#123;</div><div class="line">	ch &lt;- <span class="string">"zhangsan1"</span></div><div class="line">	ch &lt;- <span class="string">"zhangsan2"</span></div><div class="line">	ch &lt;- <span class="string">"zhangsan3"</span></div><div class="line">	ch &lt;- <span class="string">"zhangsan4"</span></div><div class="line">	ch &lt;- <span class="string">"zhangsan5"</span></div><div class="line">	<span class="built_in">close</span>(ch)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="channel实际用途"><a href="#channel实际用途" class="headerlink" title="channel实际用途"></a>channel实际用途</h2><h3 id="可用作信号源"><a href="#可用作信号源" class="headerlink" title="可用作信号源"></a>可用作信号源</h3><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	fmt.Println(<span class="string">"Begin doing something!"</span>)</div><div class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">		fmt.Println(<span class="string">"Doing something…"</span>)</div><div class="line">		<span class="built_in">close</span>(c)</div><div class="line">	&#125;()</div><div class="line">	&lt;-c</div><div class="line">	fmt.Println(<span class="string">"Done!"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="协同多个Goroutines"><a href="#协同多个Goroutines" class="headerlink" title="协同多个Goroutines"></a>协同多个Goroutines</h3><blockquote>
+<p>同上，close channel还可以用于协同多个Goroutines，比如下面这个例子，我们创建了100个Worker Goroutine，这些Goroutine在被创建出来后都阻塞在”&lt;-start”上，直到我们在main goroutine中给出开工的信号：”close(start)”，这些goroutines才开始真正的并发运行起来。<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(start <span class="keyword">chan</span> <span class="keyword">bool</span>, index <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">        &lt;-start</div><div class="line">        fmt.Println(<span class="string">"This is Worker:"</span>, index)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">        start := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line">        <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= <span class="number">100</span>; i++ &#123;</div><div class="line">                <span class="keyword">go</span> worker(start, i)</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">close</span>(start)</div><div class="line">        <span class="keyword">select</span> &#123;&#125; <span class="comment">//deadlock we expected</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="唯一的ID服务"><a href="#唯一的ID服务" class="headerlink" title="唯一的ID服务"></a>唯一的ID服务</h3><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">newUniqueIDService</span><span class="params">()</span> &lt;-<span class="title">chan</span> <span class="title">string</span></span> &#123;</div><div class="line">    id := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">var</span> counter <span class="keyword">int64</span> = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> &#123;</div><div class="line">            <span class="comment">// 无缓冲 -&gt; 阻塞</span></div><div class="line">            id &lt;- fmt.Sprintf(<span class="string">"%x"</span>, counter)</div><div class="line">            counter += <span class="number">1</span></div><div class="line">        &#125;</div><div class="line">    &#125;()</div><div class="line">    <span class="keyword">return</span> id</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    id := newUniqueIDService()</div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</div><div class="line">        <span class="comment">// 这边取一个，id插入一个（自增）</span></div><div class="line">        fmt.Println(&lt;-id)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$ <span class="keyword">go</span> run testuniqueid.<span class="keyword">go</span></div><div class="line"><span class="number">0</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">6</span></div><div class="line"><span class="number">7</span></div><div class="line"><span class="number">8</span></div><div class="line"><span class="number">9</span></div></pre></td></tr></table></figure>
+<h1 id="select"><a href="#select" class="headerlink" title="select"></a>select</h1><h2 id="select特点"><a href="#select特点" class="headerlink" title="select特点"></a>select特点</h2><blockquote>
+<ul>
+<li>可以处理一个或多个channel的发送与接收</li>
+<li>同时有多个可用的channel时按随机顺序处理</li>
+<li>可用空的select阻塞main函数</li>
+<li>可设置超时<h2 id="惯用法：for-select"><a href="#惯用法：for-select" class="headerlink" title="惯用法：for/select"></a>惯用法：for/select</h2>我们在使用select时很少只是对其进行一次evaluation，我们常常将其与for {}结合在一起使用，并选择适当时机从for{}中退出。<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">for</span> &#123;</div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">    <span class="keyword">case</span> x := &lt;- somechan:</div><div class="line">        <span class="comment">// … 使用x进行一些操作</span></div><div class="line"></div><div class="line">    <span class="keyword">case</span> y, ok := &lt;- someOtherchan:</div><div class="line">        <span class="comment">// … 使用y进行一些操作，</span></div><div class="line">        <span class="comment">// 检查ok值判断someOtherchan是否已经关闭</span></div><div class="line"></div><div class="line">    <span class="keyword">case</span> outputChan &lt;- z:</div><div class="line">        <span class="comment">// … z值被成功发送到Channel上时</span></div><div class="line"></div><div class="line">    <span class="keyword">default</span>:</div><div class="line">        <span class="comment">// … 上面case均无法通信时，执行此分支</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h2 id="终结workers"><a href="#终结workers" class="headerlink" title="终结workers"></a>终结workers</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	ch, die := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>), <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</div><div class="line">		<span class="keyword">go</span> worker(die, i, ch)</div><div class="line">		ch &lt;- <span class="literal">true</span></div><div class="line">	&#125;</div><div class="line">	time.Sleep(<span class="number">1</span> * time.Second)</div><div class="line">	<span class="comment">// 此处终结worker</span></div><div class="line">	<span class="built_in">close</span>(die)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(die <span class="keyword">chan</span> <span class="keyword">bool</span>, index <span class="keyword">int</span>, ch <span class="keyword">chan</span> <span class="keyword">bool</span>)</span></span> &#123;</div><div class="line">	fmt.Println(<span class="string">"Begin: This is Worker:"</span>, index)</div><div class="line">	<span class="keyword">for</span> &#123;</div><div class="line">		<span class="keyword">select</span> &#123;</div><div class="line">		<span class="keyword">case</span> &lt;-ch:</div><div class="line">			fmt.Println(<span class="string">"already worded:"</span>, index)</div><div class="line">		<span class="keyword">case</span> &lt;-die:</div><div class="line">			<span class="keyword">return</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="终结验证"><a href="#终结验证" class="headerlink" title="终结验证"></a>终结验证</h2><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="comment">//"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(die <span class="keyword">chan</span> <span class="keyword">bool</span>)</span></span> &#123;</div><div class="line">    fmt.Println(<span class="string">"Begin: This is Worker"</span>)</div><div class="line">    <span class="keyword">for</span> &#123;</div><div class="line">        <span class="keyword">select</span> &#123;</div><div class="line">        <span class="comment">//case xx：</span></div><div class="line">        <span class="comment">//做事的分支</span></div><div class="line">        <span class="comment">// get channel message</span></div><div class="line">        <span class="keyword">case</span> &lt;-die:</div><div class="line">            fmt.Println(<span class="string">"Done: This is Worker"</span>)</div><div class="line">            <span class="comment">// send channel message</span></div><div class="line">            die &lt;- <span class="literal">true</span></div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    die := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line">    <span class="keyword">go</span> worker(die)</div><div class="line">    <span class="comment">// send channel message</span></div><div class="line">    die &lt;- <span class="literal">true</span></div><div class="line">    <span class="comment">// get channel message</span></div><div class="line">    &lt;-die</div><div class="line">    fmt.Println(<span class="string">"Worker goroutine has been terminated"</span>)</div><div class="line">&#125;</div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line"></div><div class="line">#  等待goroutine完成</div><div class="line">使用`sync<span class="string">`包</span></div><div class="line">`<span class="string">``</span><span class="keyword">go</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">correct</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> wg sync.WaitGroup</div><div class="line">    wg.Add(<span class="number">5</span>)</div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</div><div class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(n <span class="keyword">int</span>)</span></span> &#123; <span class="comment">// 使用局部变量</span></div><div class="line">            fmt.Print(n)</div><div class="line">            wg.Done()</div><div class="line">        &#125;(i)</div><div class="line">    &#125;</div><div class="line">    wg.Wait()</div><div class="line">    fmt.Println()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述只是等待goroutine完成，却没有进行通讯。有错误值也无法返回。所以说，最好还是使用channel<br>如果我们希望通讯，只需要在此基础上增加channel通讯即可<br>例：<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    people := []<span class="keyword">string</span>&#123;<span class="string">"Anna"</span>, <span class="string">"Bob"</span>, <span class="string">"Cody"</span>, <span class="string">"Dave"</span>, <span class="string">"Eva"</span>&#125;</div><div class="line">    match := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>, <span class="number">1</span>) <span class="comment">// 为一个未匹配的发送操作提供空间</span></div><div class="line">    wg := <span class="built_in">new</span>(sync.WaitGroup)</div><div class="line">    wg.Add(<span class="built_in">len</span>(people))</div><div class="line">    <span class="keyword">for</span> _, name := <span class="keyword">range</span> people &#123;</div><div class="line">        <span class="keyword">go</span> Seek(name, match, wg)</div><div class="line">    &#125;</div><div class="line">    wg.Wait()</div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">    <span class="keyword">case</span> name := &lt;-match:</div><div class="line">        fmt.Printf(<span class="string">"No one received %s’s message.\n"</span>, name)</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">        <span class="comment">// 没有待处理的发送操作</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 函数Seek 发送一个name到match管道或从match管道接收一个peer，结束时通知wait group</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Seek</span><span class="params">(name <span class="keyword">string</span>, match <span class="keyword">chan</span> <span class="keyword">string</span>, wg *sync.WaitGroup)</span></span> &#123;</div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">    <span class="keyword">case</span> peer := &lt;-match:</div><div class="line">        fmt.Printf(<span class="string">"%s sent a message to %s.\n"</span>, peer, name)</div><div class="line">    <span class="keyword">case</span> match &lt;- name:</div><div class="line">        <span class="comment">// 等待某个goroutine接收我的消息</span></div><div class="line">    &#125;</div><div class="line">    wg.Done()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="利用多核"><a href="#利用多核" class="headerlink" title="利用多核"></a>利用多核</h1><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</div><div class="line">    numcpu := runtime.NumCPU()</div><div class="line">    runtime.GOMAXPROCS(numcpu) <span class="comment">// 尝试使用所有可用的CPU</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/golang/mgo/" rel="next" title="mgo">
+                <i class="fa fa-chevron-left"></i> mgo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/golang/函数，结构与接口/" rel="prev" title="函数，结构与接口">
+                函数，结构与接口 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="chimps" />
+          <p class="site-author-name" itemprop="name">chimps</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Goroutine"><span class="nav-number">1.</span> <span class="nav-text">Goroutine</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#demo"><span class="nav-number">1.2.</span> <span class="nav-text">demo</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Channel"><span class="nav-number">2.</span> <span class="nav-text">Channel</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符-lt"><span class="nav-number">2.1.</span> <span class="nav-text">操作符<-</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#channel特点"><span class="nav-number">2.2.</span> <span class="nav-text">channel特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通道阻塞"><span class="nav-number">2.3.</span> <span class="nav-text">通道阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见错误示例："><span class="nav-number">2.4.</span> <span class="nav-text">常见错误示例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#demo实例"><span class="nav-number">2.5.</span> <span class="nav-text">demo实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带缓冲的channel"><span class="nav-number">2.6.</span> <span class="nav-text">带缓冲的channel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#channel常与range配合"><span class="nav-number">2.7.</span> <span class="nav-text">channel常与range配合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#channel实际用途"><span class="nav-number">2.8.</span> <span class="nav-text">channel实际用途</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可用作信号源"><span class="nav-number">2.8.1.</span> <span class="nav-text">可用作信号源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协同多个Goroutines"><span class="nav-number">2.8.2.</span> <span class="nav-text">协同多个Goroutines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#唯一的ID服务"><span class="nav-number">2.8.3.</span> <span class="nav-text">唯一的ID服务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#select"><span class="nav-number">3.</span> <span class="nav-text">select</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#select特点"><span class="nav-number">3.1.</span> <span class="nav-text">select特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#惯用法：for-select"><span class="nav-number">3.2.</span> <span class="nav-text">惯用法：for/select</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#终结workers"><span class="nav-number">3.3.</span> <span class="nav-text">终结workers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#终结验证"><span class="nav-number">3.4.</span> <span class="nav-text">终结验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用多核"><span class="nav-number">4.</span> <span class="nav-text">利用多核</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chimps</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

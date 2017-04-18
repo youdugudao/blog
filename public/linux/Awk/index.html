@@ -1,0 +1,766 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,awk," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="参见linux手册awk部分 示例文本test.txtBeth	4.00	0Dan	3.75	0kathy	4.00	10Mark	5.00	20Mary	5.50	22Susie	4.25	18  基本语法示例awk &amp;#39;$3 &amp;gt;0 { print $1, $2 * $3 }&amp;#39; emp.data 通过awk脚本文件test.awk/.+th/ &amp;#123;    print">
+<meta name="keywords" content="linux,awk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Awk">
+<meta property="og:url" content="http://yoursite.com/linux/Awk/index.html">
+<meta property="og:site_name" content="chimps">
+<meta property="og:description" content="参见linux手册awk部分 示例文本test.txtBeth	4.00	0Dan	3.75	0kathy	4.00	10Mark	5.00	20Mary	5.50	22Susie	4.25	18  基本语法示例awk &amp;#39;$3 &amp;gt;0 { print $1, $2 * $3 }&amp;#39; emp.data 通过awk脚本文件test.awk/.+th/ &amp;#123;    print">
+<meta property="og:updated_time" content="2017-04-17T15:32:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Awk">
+<meta name="twitter:description" content="参见linux手册awk部分 示例文本test.txtBeth	4.00	0Dan	3.75	0kathy	4.00	10Mark	5.00	20Mary	5.50	22Susie	4.25	18  基本语法示例awk &amp;#39;$3 &amp;gt;0 { print $1, $2 * $3 }&amp;#39; emp.data 通过awk脚本文件test.awk/.+th/ &amp;#123;    print">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":30},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/linux/Awk/"/>
+
+
+
+
+
+  <title> Awk | chimps </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chimps</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/linux/Awk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chimps">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chimps">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Awk
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-17T22:57:01+08:00">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>参见<a href="http://man.linuxde.net/awk" target="_blank" rel="external">linux手册awk部分</a></p>
+<h1 id="示例文本"><a href="#示例文本" class="headerlink" title="示例文本"></a>示例文本</h1><p>test.txt<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Beth	4.00	0</div><div class="line">Dan	3.75	0</div><div class="line">kathy	4.00	10</div><div class="line">Mark	5.00	20</div><div class="line">Mary	5.50	22</div><div class="line">Susie	4.25	18</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="基本语法示例"><a href="#基本语法示例" class="headerlink" title="基本语法示例"></a>基本语法示例</h1><p><code>awk &#39;$3 &gt;0 { print $1, $2 * $3 }&#39; emp.data</code></p>
+<h1 id="通过awk脚本文件"><a href="#通过awk脚本文件" class="headerlink" title="通过awk脚本文件"></a>通过awk脚本文件</h1><p>test.awk<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/.+th/ &#123;</div><div class="line">    print $0</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行脚本：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ awk -f test.awk test.txt</div><div class="line"># 结果：</div><div class="line">Beth    4.00    0</div><div class="line">kathy   4.00    10</div></pre></td></tr></table></figure></p>
+<h1 id="BEGIN与END"><a href="#BEGIN与END" class="headerlink" title="BEGIN与END"></a>BEGIN与END</h1><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">BEGIN&#123;</div><div class="line">    print &quot;begin search&quot;</div><div class="line">&#125;</div><div class="line">END&#123;</div><div class="line">    print &quot;all end&quot;</div><div class="line">&#125;</div><div class="line">/.+th/&#123;</div><div class="line">    print $0</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ awk -f test.awk test.txt</div><div class="line"># 结果</div><div class="line">begin search</div><div class="line">Beth    4.00    0</div><div class="line">kathy   4.00    10</div><div class="line">all end</div></pre></td></tr></table></figure></p>
+<h1 id="内置变量"><a href="#内置变量" class="headerlink" title="内置变量"></a>内置变量</h1><h2 id="ARGC"><a href="#ARGC" class="headerlink" title="ARGC"></a>ARGC</h2><p>表示在命令中提供的参数的个数<br>例：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">awk &apos;BEGIN &#123;print &quot;Arguments =&quot;, ARGC&#125;&apos; One Two Three Four</div></pre></td></tr></table></figure></p>
+<p>结果：<code>Arguments = 5</code></p>
+<h2 id="ARGV"><a href="#ARGV" class="headerlink" title="ARGV"></a>ARGV</h2><p>这个变量表示存储命令行输入参数的数组,数组的有效索引是从 0 到 ARGC-1<br>例<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">BEGIN&#123;</div><div class="line">    for (i = 0; i &lt; ARGC ;i++)&#123;  </div><div class="line">        printf &quot;ARGV[%d]=%s\n&quot;, i, ARGV[i]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">END&#123;</div><div class="line">    print &quot;all end&quot;</div><div class="line">&#125;</div><div class="line">/.+th/&#123;</div><div class="line">    print $0</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ awk -f test.awk test.txt</div><div class="line"># 结果</div><div class="line">ARGV[0]=awk</div><div class="line">ARGV[1]=test.txt</div><div class="line">Beth    4.00    0</div><div class="line">kathy   4.00    10</div><div class="line">all end</div></pre></td></tr></table></figure></p>
+<h2 id="ENVISON环境变量"><a href="#ENVISON环境变量" class="headerlink" title="ENVISON环境变量"></a>ENVISON环境变量</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">BEGIN&#123;</div><div class="line">    for (n in ENVIRON)&#123;</div><div class="line">        print n &quot;: &quot; ENVIRON[n]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ awk -f test.awk test.txt</div><div class="line"># 结果</div><div class="line">GOROOT: /usr/local/Cellar/go/1.7.4_1/libexec</div><div class="line">LESS: -R</div><div class="line">PAGER: less</div><div class="line">AWKPATH: .:/usr/local/Cellar/gawk/4.1.4_1/share/awk</div><div class="line">OLDPWD: ...</div><div class="line">TERM_PROGRAM: iTerm.app</div></pre></td></tr></table></figure></p>
+<h2 id="FILENAME"><a href="#FILENAME" class="headerlink" title="FILENAME"></a>FILENAME</h2><p>文件名<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">BEGIN&#123;</div><div class="line">    print FILENAME</div><div class="line">&#125;</div><div class="line">END&#123;</div><div class="line">    print FILENAME</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/chimps/linux/awk awk -f test.awk test.txt</div><div class="line"></div><div class="line">test.txt</div></pre></td></tr></table></figure></p>
+<p>可以看出在begin的时候FILENAME变量为空值</p>
+<h2 id="FS"><a href="#FS" class="headerlink" title="FS"></a>FS</h2><p>此变量表示输入的数据域之间的分隔符，其默认值是空格。 你可以使用 -F 命令行选项改变它的默认值。</p>
+<h2 id="NF"><a href="#NF" class="headerlink" title="NF"></a>NF</h2><p>此变量表示当前输入记录中域的数量<br>test.txt<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Marks</div><div class="line">Mark	5.00</div><div class="line">Mary	5.50	22</div><div class="line">Susie	4.25	18</div></pre></td></tr></table></figure></p>
+<p>test.awk<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">NF&gt;2&#123;</div><div class="line">    print $0</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/chimps/linux/awk awk -f test.awk test.txt</div><div class="line">Mary	5.50	22</div><div class="line">Susie	4.25	18</div></pre></td></tr></table></figure></p>
+<h2 id="NR（FNR）"><a href="#NR（FNR）" class="headerlink" title="NR（FNR）"></a>NR（FNR）</h2><p>默认的就是读取的数据行数，NR可以理解为Number of Record的缩写,FNR则为File Number of Record<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># class1:</div><div class="line">zhaoyun 85 87</div><div class="line">guanyu 87 88</div><div class="line">liubei 90 86</div><div class="line"># class2:</div><div class="line">caocao 92 87 90</div><div class="line">guojia 99 96 92</div><div class="line"># test.awk:</div><div class="line">&#123;</div><div class="line">    print NR,FNR,$0</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/chimps/linux/awk awk -f test.awk class1 class2</div><div class="line">1 1 zhaoyun 85 87</div><div class="line">2 2 guanyu 87 88</div><div class="line">3 3 liubei 90 86</div><div class="line">4 1 caocao 92 87 90</div><div class="line">5 2 guojia 99 96 92</div></pre></td></tr></table></figure></p>
+<h1 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h1><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">BEGIN&#123;</div><div class="line">    arr[1] = &quot;zhangsan&quot;</div><div class="line">    arr[&quot;lisi&quot;] = &quot;lisi&quot;</div><div class="line">    arr[2] = &quot;wangwu&quot;</div><div class="line"></div><div class="line">    for (n in arr)&#123;</div><div class="line">        print arr[n]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/chimps/linux/awk awk -f test.awk test.txt</div><div class="line">lisi</div><div class="line">zhangsan</div><div class="line">wangwu</div></pre></td></tr></table></figure></p>
+<h2 id="判断数组中是否存在某一项"><a href="#判断数组中是否存在某一项" class="headerlink" title="判断数组中是否存在某一项"></a>判断数组中是否存在某一项</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">BEGIN&#123;</div><div class="line">    arr[&quot;zhangsan&quot;] = &quot;wangwu&quot;</div><div class="line">    if(&quot;zhangsan&quot; in arr)&#123;</div><div class="line">        print &quot;zhangsan ok&quot;</div><div class="line">    &#125;else&#123;</div><div class="line">        print &quot;zhangsan not found&quot;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if(&quot;lisi&quot; in arr)&#123;</div><div class="line">        print &quot;lisi ok&quot;</div><div class="line">    &#125;else&#123;</div><div class="line">        print &quot;lisi not found&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/chimps/linux/awk awk -f deal_err.awk</div><div class="line">zhangsan ok</div><div class="line">lisi not found</div></pre></td></tr></table></figure></p>
+<h1 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h1><h2 id="获取每个进程的内存占用"><a href="#获取每个进程的内存占用" class="headerlink" title="获取每个进程的内存占用"></a>获取每个进程的内存占用</h2><p>test.awk:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">NR != 1 &amp;&amp; $4 &gt; 0&#123;</div><div class="line">    mem[$4] = $11</div><div class="line">&#125;</div><div class="line">END&#123;</div><div class="line">    asorti(mem, Nmem)</div><div class="line">    for (k in Nmem)&#123;</div><div class="line">        print mem[Nmem[k]], Nmem[k]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行：<br><code>ps aux | awk -f test.awk</code></p>
+<h2 id="多行日志处理"><a href="#多行日志处理" class="headerlink" title="多行日志处理"></a>多行日志处理</h2><p>file.log：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">[2017-02-17 16:19:04] [285]</div><div class="line">&lt;- /v2/api/file/item/476</div><div class="line">-&gt; &#123;&quot;success&quot;:true,&quot;successInfo&quot;:&#123;&#125;&#125;</div><div class="line"></div><div class="line">[2017-03-10 11:57:42] []</div><div class="line">&lt;- /v2/api/file/diff?fid1=381&amp;fid2=287</div><div class="line">-&gt; &#123;&quot;success&quot;:false,&quot;errorInfo&quot;:&quot;长度不能为空&quot;,&quot;successInfo&quot;:&#123;&#125;,&quot;debug&quot;:&#123;&quot;line&quot;:37,&quot;info&quot;:null&#125;&#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<h3 id="方式一：使用数组"><a href="#方式一：使用数组" class="headerlink" title="方式一：使用数组"></a>方式一：使用数组</h3><p>deal_err.awk<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">BEGIN&#123;</div><div class="line">    sub_index = 0</div><div class="line">&#125;</div><div class="line">/^\[/&#123;</div><div class="line">    arr_line[sub_index] = $1 &quot;\t&quot; $2</div><div class="line">&#125;</div><div class="line"></div><div class="line">/^&lt;-/&#123;</div><div class="line">    arr_line[sub_index] = arr_line[sub_index] &quot;\t&quot; $2</div><div class="line">&#125;</div><div class="line"></div><div class="line">/^-&gt;/&#123;</div><div class="line">    text = substr($2, 2, length($2)-2)</div><div class="line">    split(text, text_arr, &quot;,&quot;)</div><div class="line">    split(text_arr[1], text_arr1, &quot;:&quot;)</div><div class="line">    if (text_arr1[2] == &quot;false&quot;)&#123;</div><div class="line">        arr[sub_index] = arr_line[sub_index] &quot;\t&quot; text_arr[2]</div><div class="line">        sub_index ++</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">END&#123;</div><div class="line">    for (k in arr) &#123;</div><div class="line">        print k,arr[k] &gt;&gt; &quot;output.txt&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">awk -f deal_err.awk file.log</div></pre></td></tr></table></figure></p>
+<h3 id="方式二：匹配成功就写到文件"><a href="#方式二：匹配成功就写到文件" class="headerlink" title="方式二：匹配成功就写到文件"></a>方式二：匹配成功就写到文件</h3><p>deal_err.awk<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/^\[/&#123;</div><div class="line">    url = $1 &quot;\t&quot; $2</div><div class="line">&#125;</div><div class="line"></div><div class="line">/^&lt;-/&#123;</div><div class="line">    request = arr_line[sub_index] &quot;\t&quot; $2</div><div class="line">&#125;</div><div class="line"></div><div class="line">/^-&gt;/&#123;</div><div class="line">    response = substr($2, 2, length($2)-2)</div><div class="line">    split(response, res_arr, &quot;,&quot;)</div><div class="line">    split(res_arr[1], res_arr1, &quot;:&quot;)</div><div class="line">    if (res_arr1[2] == &quot;false&quot;)&#123;</div><div class="line">        print url,request,res_arr[2] &gt; &quot;output.txt&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>很明显，这样可读性好一些<br>运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">awk -f deal_err.awk file.log</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/awk/" rel="tag"># awk</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/linux/每日一个Linux命令/" rel="next" title="每日一个Linux命令">
+                <i class="fa fa-chevron-left"></i> 每日一个Linux命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/auth/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="chimps" />
+          <p class="site-author-name" itemprop="name">chimps</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#示例文本"><span class="nav-number">1.</span> <span class="nav-text">示例文本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本语法示例"><span class="nav-number">2.</span> <span class="nav-text">基本语法示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过awk脚本文件"><span class="nav-number">3.</span> <span class="nav-text">通过awk脚本文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BEGIN与END"><span class="nav-number">4.</span> <span class="nav-text">BEGIN与END</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内置变量"><span class="nav-number">5.</span> <span class="nav-text">内置变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ARGC"><span class="nav-number">5.1.</span> <span class="nav-text">ARGC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARGV"><span class="nav-number">5.2.</span> <span class="nav-text">ARGV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ENVISON环境变量"><span class="nav-number">5.3.</span> <span class="nav-text">ENVISON环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FILENAME"><span class="nav-number">5.4.</span> <span class="nav-text">FILENAME</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FS"><span class="nav-number">5.5.</span> <span class="nav-text">FS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NF"><span class="nav-number">5.6.</span> <span class="nav-text">NF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NR（FNR）"><span class="nav-number">5.7.</span> <span class="nav-text">NR（FNR）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数组操作"><span class="nav-number">6.</span> <span class="nav-text">数组操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#判断数组中是否存在某一项"><span class="nav-number">6.1.</span> <span class="nav-text">判断数组中是否存在某一项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DEMO"><span class="nav-number">7.</span> <span class="nav-text">DEMO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取每个进程的内存占用"><span class="nav-number">7.1.</span> <span class="nav-text">获取每个进程的内存占用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多行日志处理"><span class="nav-number">7.2.</span> <span class="nav-text">多行日志处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式一：使用数组"><span class="nav-number">7.2.1.</span> <span class="nav-text">方式一：使用数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式二：匹配成功就写到文件"><span class="nav-number">7.2.2.</span> <span class="nav-text">方式二：匹配成功就写到文件</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chimps</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

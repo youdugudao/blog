@@ -1,0 +1,1037 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="（摘录）  Gin Web Framework Gin is a web framework written in Go (Golang). It features a martini-like API with much better performance, up to 40 times faster thanks to httprouter. If you need performance">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gin文档">
+<meta property="og:url" content="http://yoursite.com/golang/gin文档/index.html">
+<meta property="og:site_name" content="chimps">
+<meta property="og:description" content="（摘录）  Gin Web Framework Gin is a web framework written in Go (Golang). It features a martini-like API with much better performance, up to 40 times faster thanks to httprouter. If you need performance">
+<meta property="og:image" content="https://raw.githubusercontent.com/gin-gonic/gin/master/logo.jpg">
+<meta property="og:image" content="https://travis-ci.org/gin-gonic/gin.svg">
+<meta property="og:image" content="https://codecov.io/gh/gin-gonic/gin/branch/master/graph/badge.svg">
+<meta property="og:image" content="https://goreportcard.com/badge/github.com/gin-gonic/gin">
+<meta property="og:image" content="https://godoc.org/github.com/gin-gonic/gin?status.svg">
+<meta property="og:image" content="https://badges.gitter.im/Join%20Chat.svg">
+<meta property="og:image" content="https://gin-gonic.github.io/gin/other/console.png">
+<meta property="og:updated_time" content="2017-04-17T16:02:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gin文档">
+<meta name="twitter:description" content="（摘录）  Gin Web Framework Gin is a web framework written in Go (Golang). It features a martini-like API with much better performance, up to 40 times faster thanks to httprouter. If you need performance">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/gin-gonic/gin/master/logo.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":30},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/golang/gin文档/"/>
+
+
+
+
+
+  <title> gin文档 | chimps </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chimps</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/golang/gin文档/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chimps">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chimps">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                gin文档
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-18T00:01:06+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>（摘录）</p>
+</blockquote>
+<h1 id="Gin-Web-Framework"><a href="#Gin-Web-Framework" class="headerlink" title="Gin Web Framework"></a>Gin Web Framework</h1><p><img align="right" src="https://raw.githubusercontent.com/gin-gonic/gin/master/logo.jpg"><br><a href="https://travis-ci.org/gin-gonic/gin" target="_blank" rel="external"><img src="https://travis-ci.org/gin-gonic/gin.svg" alt="Build Status"></a><br><a href="https://codecov.io/gh/gin-gonic/gin" target="_blank" rel="external"><img src="https://codecov.io/gh/gin-gonic/gin/branch/master/graph/badge.svg" alt="codecov"></a><br><a href="https://goreportcard.com/report/github.com/gin-gonic/gin" target="_blank" rel="external"><img src="https://goreportcard.com/badge/github.com/gin-gonic/gin" alt="Go Report Card"></a><br><a href="https://godoc.org/github.com/gin-gonic/gin" target="_blank" rel="external"><img src="https://godoc.org/github.com/gin-gonic/gin?status.svg" alt="GoDoc"></a><br><a href="https://gitter.im/gin-gonic/gin?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" target="_blank" rel="external"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/gin-gonic/gin"></a></p>
+<p>Gin is a web framework written in Go (Golang). It features a martini-like API with much better performance, up to 40 times faster thanks to <a href="https://github.com/julienschmidt/httprouter" target="_blank" rel="external">httprouter</a>. If you need performance and good productivity, you will love Gin.</p>
+<p><img src="https://gin-gonic.github.io/gin/other/console.png" alt="Gin console logger"></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ cat test.go</div></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"gopkg.in/gin-gonic/gin.v1"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	r := gin.Default()</div><div class="line">	r.GET(<span class="string">"/ping"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		c.JSON(<span class="number">200</span>, gin.H&#123;</div><div class="line">			<span class="string">"message"</span>: <span class="string">"pong"</span>,</div><div class="line">		&#125;)</div><div class="line">	&#125;)</div><div class="line">	r.Run() <span class="comment">// listen and serve on 0.0.0.0:8080</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Benchmarks"><a href="#Benchmarks" class="headerlink" title="Benchmarks"></a>Benchmarks</h2><p>Gin uses a custom version of <a href="https://github.com/julienschmidt/httprouter" target="_blank" rel="external">HttpRouter</a>  </p>
+<p><a href="/BENCHMARKS.md">See all benchmarks</a></p>
+<table>
+<thead>
+<tr>
+<th>Benchmark name</th>
+<th style="text-align:right">(1)</th>
+<th style="text-align:right">(2)</th>
+<th style="text-align:right">(3)</th>
+<th style="text-align:right">(4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BenchmarkAce_GithubAll</td>
+<td style="text-align:right">10000</td>
+<td style="text-align:right">109482</td>
+<td style="text-align:right">13792</td>
+<td style="text-align:right">167</td>
+</tr>
+<tr>
+<td>BenchmarkBear_GithubAll</td>
+<td style="text-align:right">10000</td>
+<td style="text-align:right">287490</td>
+<td style="text-align:right">79952</td>
+<td style="text-align:right">943</td>
+</tr>
+<tr>
+<td>BenchmarkBeego_GithubAll</td>
+<td style="text-align:right">3000</td>
+<td style="text-align:right">562184</td>
+<td style="text-align:right">146272</td>
+<td style="text-align:right">2092</td>
+</tr>
+<tr>
+<td>BenchmarkBone_GithubAll</td>
+<td style="text-align:right">500</td>
+<td style="text-align:right">2578716</td>
+<td style="text-align:right">648016</td>
+<td style="text-align:right">8119</td>
+</tr>
+<tr>
+<td>BenchmarkDenco_GithubAll</td>
+<td style="text-align:right">20000</td>
+<td style="text-align:right">94955</td>
+<td style="text-align:right">20224</td>
+<td style="text-align:right">167</td>
+</tr>
+<tr>
+<td>BenchmarkEcho_GithubAll</td>
+<td style="text-align:right">30000</td>
+<td style="text-align:right">58705</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td><strong>BenchmarkGin_GithubAll</strong></td>
+<td style="text-align:right"><strong>30000</strong></td>
+<td style="text-align:right"><strong>50991</strong></td>
+<td style="text-align:right"><strong>0</strong></td>
+<td style="text-align:right"><strong>0</strong></td>
+</tr>
+<tr>
+<td>BenchmarkGocraftWeb_GithubAll</td>
+<td style="text-align:right">5000</td>
+<td style="text-align:right">449648</td>
+<td style="text-align:right">133280</td>
+<td style="text-align:right">1889</td>
+</tr>
+<tr>
+<td>BenchmarkGoji_GithubAll</td>
+<td style="text-align:right">2000</td>
+<td style="text-align:right">689748</td>
+<td style="text-align:right">56113</td>
+<td style="text-align:right">334</td>
+</tr>
+<tr>
+<td>BenchmarkGoJsonRest_GithubAll</td>
+<td style="text-align:right">5000</td>
+<td style="text-align:right">537769</td>
+<td style="text-align:right">135995</td>
+<td style="text-align:right">2940</td>
+</tr>
+<tr>
+<td>BenchmarkGoRestful_GithubAll</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">18410628</td>
+<td style="text-align:right">797236</td>
+<td style="text-align:right">7725</td>
+</tr>
+<tr>
+<td>BenchmarkGorillaMux_GithubAll</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">8036360</td>
+<td style="text-align:right">153137</td>
+<td style="text-align:right">1791</td>
+</tr>
+<tr>
+<td>BenchmarkHttpRouter_GithubAll</td>
+<td style="text-align:right">20000</td>
+<td style="text-align:right">63506</td>
+<td style="text-align:right">13792</td>
+<td style="text-align:right">167</td>
+</tr>
+<tr>
+<td>BenchmarkHttpTreeMux_GithubAll</td>
+<td style="text-align:right">10000</td>
+<td style="text-align:right">165927</td>
+<td style="text-align:right">56112</td>
+<td style="text-align:right">334</td>
+</tr>
+<tr>
+<td>BenchmarkKocha_GithubAll</td>
+<td style="text-align:right">10000</td>
+<td style="text-align:right">171362</td>
+<td style="text-align:right">23304</td>
+<td style="text-align:right">843</td>
+</tr>
+<tr>
+<td>BenchmarkMacaron_GithubAll</td>
+<td style="text-align:right">2000</td>
+<td style="text-align:right">817008</td>
+<td style="text-align:right">224960</td>
+<td style="text-align:right">2315</td>
+</tr>
+<tr>
+<td>BenchmarkMartini_GithubAll</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">12609209</td>
+<td style="text-align:right">237952</td>
+<td style="text-align:right">2686</td>
+</tr>
+<tr>
+<td>BenchmarkPat_GithubAll</td>
+<td style="text-align:right">300</td>
+<td style="text-align:right">4830398</td>
+<td style="text-align:right">1504101</td>
+<td style="text-align:right">32222</td>
+</tr>
+<tr>
+<td>BenchmarkPossum_GithubAll</td>
+<td style="text-align:right">10000</td>
+<td style="text-align:right">301716</td>
+<td style="text-align:right">97440</td>
+<td style="text-align:right">812</td>
+</tr>
+<tr>
+<td>BenchmarkR2router_GithubAll</td>
+<td style="text-align:right">10000</td>
+<td style="text-align:right">270691</td>
+<td style="text-align:right">77328</td>
+<td style="text-align:right">1182</td>
+</tr>
+<tr>
+<td>BenchmarkRevel_GithubAll</td>
+<td style="text-align:right">1000</td>
+<td style="text-align:right">1491919</td>
+<td style="text-align:right">345553</td>
+<td style="text-align:right">5918</td>
+</tr>
+<tr>
+<td>BenchmarkRivet_GithubAll</td>
+<td style="text-align:right">10000</td>
+<td style="text-align:right">283860</td>
+<td style="text-align:right">84272</td>
+<td style="text-align:right">1079</td>
+</tr>
+<tr>
+<td>BenchmarkTango_GithubAll</td>
+<td style="text-align:right">5000</td>
+<td style="text-align:right">473821</td>
+<td style="text-align:right">87078</td>
+<td style="text-align:right">2470</td>
+</tr>
+<tr>
+<td>BenchmarkTigerTonic_GithubAll</td>
+<td style="text-align:right">2000</td>
+<td style="text-align:right">1120131</td>
+<td style="text-align:right">241088</td>
+<td style="text-align:right">6052</td>
+</tr>
+<tr>
+<td>BenchmarkTraffic_GithubAll</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">8708979</td>
+<td style="text-align:right">2664762</td>
+<td style="text-align:right">22390</td>
+</tr>
+<tr>
+<td>BenchmarkVulcan_GithubAll</td>
+<td style="text-align:right">5000</td>
+<td style="text-align:right">353392</td>
+<td style="text-align:right">19894</td>
+<td style="text-align:right">609</td>
+</tr>
+<tr>
+<td>BenchmarkZeus_GithubAll</td>
+<td style="text-align:right">2000</td>
+<td style="text-align:right">944234</td>
+<td style="text-align:right">300688</td>
+<td style="text-align:right">2648</td>
+</tr>
+</tbody>
+</table>
+<p>(1): Total Repetitions<br>(2): Single Repetition Duration (ns/op)<br>(3): Heap Memory (B/op)<br>(4): Average Allocations per Repetition (allocs/op)  </p>
+<h2 id="Gin-v1-stable"><a href="#Gin-v1-stable" class="headerlink" title="Gin v1. stable"></a>Gin v1. stable</h2><ul>
+<li>[x] Zero allocation router.</li>
+<li>[x] Still the fastest http router and framework. From routing to writing.</li>
+<li>[x] Complete suite of unit tests</li>
+<li>[x] Battle tested</li>
+<li>[x] API frozen, new releases will not break your code.</li>
+</ul>
+<h2 id="Start-using-it"><a href="#Start-using-it" class="headerlink" title="Start using it"></a>Start using it</h2><ol>
+<li><p>Download and install it:</p>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ go get gopkg.in/gin-gonic/gin.v1</div></pre></td></tr></table></figure>
+</li>
+<li><p>Import it in your code:</p>
+ <figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"gopkg.in/gin-gonic/gin.v1"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>(Optional) Import <code>net/http</code>. This is required for example if using constants such as <code>http.StatusOK</code>.</p>
+ <figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"net/http"</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="API-Examples"><a href="#API-Examples" class="headerlink" title="API Examples"></a>API Examples</h2><h4 id="Using-GET-POST-PUT-PATCH-DELETE-and-OPTIONS"><a href="#Using-GET-POST-PUT-PATCH-DELETE-and-OPTIONS" class="headerlink" title="Using GET, POST, PUT, PATCH, DELETE and OPTIONS"></a>Using GET, POST, PUT, PATCH, DELETE and OPTIONS</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="comment">// Creates a gin router with default middleware:</span></div><div class="line">	<span class="comment">// logger and recovery (crash-free) middleware</span></div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	router.GET(<span class="string">"/someGet"</span>, getting)</div><div class="line">	router.POST(<span class="string">"/somePost"</span>, posting)</div><div class="line">	router.PUT(<span class="string">"/somePut"</span>, putting)</div><div class="line">	router.DELETE(<span class="string">"/someDelete"</span>, deleting)</div><div class="line">	router.PATCH(<span class="string">"/somePatch"</span>, patching)</div><div class="line">	router.HEAD(<span class="string">"/someHead"</span>, head)</div><div class="line">	router.OPTIONS(<span class="string">"/someOptions"</span>, options)</div><div class="line"></div><div class="line">	<span class="comment">// By default it serves on :8080 unless a</span></div><div class="line">	<span class="comment">// PORT environment variable was defined.</span></div><div class="line">	router.Run()</div><div class="line">	<span class="comment">// router.Run(":3000") for a hard coded port</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Parameters-in-path"><a href="#Parameters-in-path" class="headerlink" title="Parameters in path"></a>Parameters in path</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	<span class="comment">// This handler will match /user/john but will not match neither /user/ or /user</span></div><div class="line">	router.GET(<span class="string">"/user/:name"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		name := c.Param(<span class="string">"name"</span>)</div><div class="line">		c.String(http.StatusOK, <span class="string">"Hello %s"</span>, name)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	<span class="comment">// However, this one will match /user/john/ and also /user/john/send</span></div><div class="line">	<span class="comment">// If no other routers match /user/john, it will redirect to /user/john/</span></div><div class="line">	router.GET(<span class="string">"/user/:name/*action"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		name := c.Param(<span class="string">"name"</span>)</div><div class="line">		action := c.Param(<span class="string">"action"</span>)</div><div class="line">		message := name + <span class="string">" is "</span> + action</div><div class="line">		c.String(http.StatusOK, message)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Querystring-parameters"><a href="#Querystring-parameters" class="headerlink" title="Querystring parameters"></a>Querystring parameters</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	<span class="comment">// Query string parameters are parsed using the existing underlying request object.</span></div><div class="line">	<span class="comment">// The request responds to a url matching:  /welcome?firstname=Jane&amp;lastname=Doe</span></div><div class="line">	router.GET(<span class="string">"/welcome"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		firstname := c.DefaultQuery(<span class="string">"firstname"</span>, <span class="string">"Guest"</span>)</div><div class="line">		lastname := c.Query(<span class="string">"lastname"</span>) <span class="comment">// shortcut for c.Request.URL.Query().Get("lastname")</span></div><div class="line"></div><div class="line">		c.String(http.StatusOK, <span class="string">"Hello %s %s"</span>, firstname, lastname)</div><div class="line">	&#125;)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Multipart-Urlencoded-Form"><a href="#Multipart-Urlencoded-Form" class="headerlink" title="Multipart/Urlencoded Form"></a>Multipart/Urlencoded Form</h3><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	router.POST(<span class="string">"/form_post"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		message := c.PostForm(<span class="string">"message"</span>)</div><div class="line">		nick := c.DefaultPostForm(<span class="string">"nick"</span>, <span class="string">"anonymous"</span>)</div><div class="line"></div><div class="line">		c.JSON(<span class="number">200</span>, gin.H&#123;</div><div class="line">			<span class="string">"status"</span>:  <span class="string">"posted"</span>,</div><div class="line">			<span class="string">"message"</span>: message,</div><div class="line">			<span class="string">"nick"</span>:    nick,</div><div class="line">		&#125;)</div><div class="line">	&#125;)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Another-example-query-post-form"><a href="#Another-example-query-post-form" class="headerlink" title="Another example: query + post form"></a>Another example: query + post form</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">POST /post?id=1234&amp;page=1 HTTP/1.1</div><div class="line">Content-Type: application/x-www-form-urlencoded</div><div class="line"></div><div class="line">name=manu&amp;message=this_is_great</div></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	router.POST(<span class="string">"/post"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line"></div><div class="line">		id := c.Query(<span class="string">"id"</span>)</div><div class="line">		page := c.DefaultQuery(<span class="string">"page"</span>, <span class="string">"0"</span>)</div><div class="line">		name := c.PostForm(<span class="string">"name"</span>)</div><div class="line">		message := c.PostForm(<span class="string">"message"</span>)</div><div class="line"></div><div class="line">		fmt.Printf(<span class="string">"id: %s; page: %s; name: %s; message: %s"</span>, id, page, name, message)</div><div class="line">	&#125;)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">id: 1234; page: 1; name: manu; message: this_is_great</div></pre></td></tr></table></figure>
+<h3 id="Another-example-upload-file"><a href="#Another-example-upload-file" class="headerlink" title="Another example: upload file"></a>Another example: upload file</h3><p>References issue <a href="https://github.com/gin-gonic/gin/issues/548" target="_blank" rel="external">#548</a>.</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	router.POST(<span class="string">"/upload"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line"></div><div class="line">	        file, header , err := c.Request.FormFile(<span class="string">"upload"</span>)</div><div class="line">	        filename := header.Filename</div><div class="line">	        fmt.Println(header.Filename)</div><div class="line">	        out, err := os.Create(<span class="string">"./tmp/"</span>+filename+<span class="string">".png"</span>)</div><div class="line">	        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">	            log.Fatal(err)</div><div class="line">	        &#125;</div><div class="line">	        <span class="keyword">defer</span> out.Close()</div><div class="line">	        _, err = io.Copy(out, file)</div><div class="line">	        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">	            log.Fatal(err)</div><div class="line">	        &#125;   </div><div class="line">	&#125;)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Grouping-routes"><a href="#Grouping-routes" class="headerlink" title="Grouping routes"></a>Grouping routes</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	<span class="comment">// Simple group: v1</span></div><div class="line">	v1 := router.Group(<span class="string">"/v1"</span>)</div><div class="line">	&#123;</div><div class="line">		v1.POST(<span class="string">"/login"</span>, loginEndpoint)</div><div class="line">		v1.POST(<span class="string">"/submit"</span>, submitEndpoint)</div><div class="line">		v1.POST(<span class="string">"/read"</span>, readEndpoint)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// Simple group: v2</span></div><div class="line">	v2 := router.Group(<span class="string">"/v2"</span>)</div><div class="line">	&#123;</div><div class="line">		v2.POST(<span class="string">"/login"</span>, loginEndpoint)</div><div class="line">		v2.POST(<span class="string">"/submit"</span>, submitEndpoint)</div><div class="line">		v2.POST(<span class="string">"/read"</span>, readEndpoint)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Blank-Gin-without-middleware-by-default"><a href="#Blank-Gin-without-middleware-by-default" class="headerlink" title="Blank Gin without middleware by default"></a>Blank Gin without middleware by default</h4><p>Use</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line">r := gin.New()</div></pre></td></tr></table></figure>
+<p>instead of</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line">r := gin.Default()</div></pre></td></tr></table></figure>
+<h4 id="Using-middleware"><a href="#Using-middleware" class="headerlink" title="Using middleware"></a>Using middleware</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="comment">// Creates a router without any middleware by default</span></div><div class="line">	r := gin.New()</div><div class="line"></div><div class="line">	<span class="comment">// Global middleware</span></div><div class="line">	r.Use(gin.Logger())</div><div class="line">	r.Use(gin.Recovery())</div><div class="line"></div><div class="line">	<span class="comment">// Per route middleware, you can add as many as you desire.</span></div><div class="line">	r.GET(<span class="string">"/benchmark"</span>, MyBenchLogger(), benchEndpoint)</div><div class="line"></div><div class="line">	<span class="comment">// Authorization group</span></div><div class="line">	<span class="comment">// authorized := r.Group("/", AuthRequired())</span></div><div class="line">	<span class="comment">// exactly the same as:</span></div><div class="line">	authorized := r.Group(<span class="string">"/"</span>)</div><div class="line">	<span class="comment">// per group middleware! in this case we use the custom created</span></div><div class="line">	<span class="comment">// AuthRequired() middleware just in the "authorized" group.</span></div><div class="line">	authorized.Use(AuthRequired())</div><div class="line">	&#123;</div><div class="line">		authorized.POST(<span class="string">"/login"</span>, loginEndpoint)</div><div class="line">		authorized.POST(<span class="string">"/submit"</span>, submitEndpoint)</div><div class="line">		authorized.POST(<span class="string">"/read"</span>, readEndpoint)</div><div class="line"></div><div class="line">		<span class="comment">// nested group</span></div><div class="line">		testing := authorized.Group(<span class="string">"testing"</span>)</div><div class="line">		testing.GET(<span class="string">"/analytics"</span>, analyticsEndpoint)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// Listen and serve on 0.0.0.0:8080</span></div><div class="line">	r.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="middleware-中间件-使用"><a href="#middleware-中间件-使用" class="headerlink" title="middleware(中间件)使用"></a>middleware(中间件)使用</h4><p>定义中间件<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// </span></div><div class="line"><span class="keyword">package</span> middleware</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"github.com/gin-gonic/gin"</span></div><div class="line">	<span class="string">"blog_api/models/m_user"</span></div><div class="line">	<span class="string">"log"</span></div><div class="line">	<span class="string">"blog_api/lib/response"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">AuthRequire</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">	accessToken := c.Request.Header.Get(<span class="string">"Authorization"</span>)</div><div class="line">	<span class="keyword">if</span> m_user.IsLogin(accessToken) == <span class="literal">false</span> &#123;</div><div class="line">		c.String(<span class="number">401</span>, <span class="string">"未登录或登录已过期, 请重新登录"</span>)</div><div class="line">		c.Abort()</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="comment">// 延长token过期时间</span></div><div class="line">		err := m_user.DeferToken(accessToken)</div><div class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">			log.Println(<span class="string">"延长过期失败, 原因:"</span> + err.Error())</div><div class="line">			response.Error(<span class="string">"延长过期失败, 原因:"</span>+err.Error(), c, <span class="literal">nil</span>)</div><div class="line">			c.Abort()</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用中间件<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"blog_api/controller"</span></div><div class="line">	<span class="string">"net/http"</span></div><div class="line">	<span class="string">"github.com/gin-gonic/gin"</span></div><div class="line">	<span class="string">"blog_api/middleware"</span></div><div class="line">)</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	... ...</div><div class="line">	auth := router.Group(<span class="string">"/"</span>)</div><div class="line">	auth.Use(middleware.AuthRequire)</div><div class="line">	&#123;</div><div class="line">		auth.GET(<span class="string">"users"</span>, controller.GetUsers)</div><div class="line">	&#125;</div><div class="line">	router.Run(<span class="string">":9004"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Model-binding-and-validation"><a href="#Model-binding-and-validation" class="headerlink" title="Model binding and validation"></a>Model binding and validation</h4><p>To bind a request body into a type, use model binding. We currently support binding of JSON, XML and standard form values (foo=bar&amp;boo=baz).</p>
+<p>Note that you need to set the corresponding binding tag on all fields you want to bind. For example, when binding from JSON, set <code>json:&quot;fieldname&quot;</code>.</p>
+<p>When using the Bind-method, Gin tries to infer the binder depending on the Content-Type header. If you are sure what you are binding, you can use BindWith.</p>
+<p>You can also specify that specific fields are required. If a field is decorated with <code>binding:&quot;required&quot;</code> and has a empty value when binding, the current request will fail with an error.</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// Binding from JSON</span></div><div class="line"><span class="keyword">type</span> Login <span class="keyword">struct</span> &#123;</div><div class="line">	User     <span class="keyword">string</span> <span class="string">`form:"user" json:"user" binding:"required"`</span></div><div class="line">	Password <span class="keyword">string</span> <span class="string">`form:"password" json:"password" binding:"required"`</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	<span class="comment">// Example for binding JSON (&#123;"user": "manu", "password": "123"&#125;)</span></div><div class="line">	router.POST(<span class="string">"/loginJSON"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		<span class="keyword">var</span> json Login</div><div class="line">		<span class="keyword">if</span> c.BindJSON(&amp;json) == <span class="literal">nil</span> &#123;</div><div class="line">			<span class="keyword">if</span> json.User == <span class="string">"manu"</span> &amp;&amp; json.Password == <span class="string">"123"</span> &#123;</div><div class="line">				c.JSON(http.StatusOK, gin.H&#123;<span class="string">"status"</span>: <span class="string">"you are logged in"</span>&#125;)</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				c.JSON(http.StatusUnauthorized, gin.H&#123;<span class="string">"status"</span>: <span class="string">"unauthorized"</span>&#125;)</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	<span class="comment">// Example for binding a HTML form (user=manu&amp;password=123)</span></div><div class="line">	router.POST(<span class="string">"/loginForm"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		<span class="keyword">var</span> form Login</div><div class="line">		<span class="comment">// This will infer what binder to use depending on the content-type header.</span></div><div class="line">		<span class="keyword">if</span> c.Bind(&amp;form) == <span class="literal">nil</span> &#123;</div><div class="line">			<span class="keyword">if</span> form.User == <span class="string">"manu"</span> &amp;&amp; form.Password == <span class="string">"123"</span> &#123;</div><div class="line">				c.JSON(http.StatusOK, gin.H&#123;<span class="string">"status"</span>: <span class="string">"you are logged in"</span>&#125;)</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				c.JSON(http.StatusUnauthorized, gin.H&#123;<span class="string">"status"</span>: <span class="string">"unauthorized"</span>&#125;)</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	<span class="comment">// Listen and serve on 0.0.0.0:8080</span></div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###Multipart/Urlencoded binding<br><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"gopkg.in/gin-gonic/gin.v1"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">type</span> LoginForm <span class="keyword">struct</span> &#123;</div><div class="line">	User     <span class="keyword">string</span> <span class="string">`form:"user" binding:"required"`</span></div><div class="line">	Password <span class="keyword">string</span> <span class="string">`form:"password" binding:"required"`</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line">	router.POST(<span class="string">"/login"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		<span class="comment">// you can bind multipart form with explicit binding declaration:</span></div><div class="line">		<span class="comment">// c.BindWith(&amp;form, binding.Form)</span></div><div class="line">		<span class="comment">// or you can simply use autobinding with Bind method:</span></div><div class="line">		<span class="keyword">var</span> form LoginForm</div><div class="line">		<span class="comment">// in this case proper binding will be automatically selected</span></div><div class="line">		<span class="keyword">if</span> c.Bind(&amp;form) == <span class="literal">nil</span> &#123;</div><div class="line">			<span class="keyword">if</span> form.User == <span class="string">"user"</span> &amp;&amp; form.Password == <span class="string">"password"</span> &#123;</div><div class="line">				c.JSON(<span class="number">200</span>, gin.H&#123;<span class="string">"status"</span>: <span class="string">"you are logged in"</span>&#125;)</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				c.JSON(<span class="number">401</span>, gin.H&#123;<span class="string">"status"</span>: <span class="string">"unauthorized"</span>&#125;)</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Test it with:<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ curl -v --form user=user --form password=password http://localhost:8080/login</div></pre></td></tr></table></figure></p>
+<h4 id="XML-JSON-and-YAML-rendering"><a href="#XML-JSON-and-YAML-rendering" class="headerlink" title="XML, JSON and YAML rendering"></a>XML, JSON and YAML rendering</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	r := gin.Default()</div><div class="line"></div><div class="line">	<span class="comment">// gin.H is a shortcut for map[string]interface&#123;&#125;</span></div><div class="line">	r.GET(<span class="string">"/someJSON"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		c.JSON(http.StatusOK, gin.H&#123;<span class="string">"message"</span>: <span class="string">"hey"</span>, <span class="string">"status"</span>: http.StatusOK&#125;)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	r.GET(<span class="string">"/moreJSON"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		<span class="comment">// You also can use a struct</span></div><div class="line">		<span class="keyword">var</span> msg <span class="keyword">struct</span> &#123;</div><div class="line">			Name    <span class="keyword">string</span> <span class="string">`json:"user"`</span></div><div class="line">			Message <span class="keyword">string</span></div><div class="line">			Number  <span class="keyword">int</span></div><div class="line">		&#125;</div><div class="line">		msg.Name = <span class="string">"Lena"</span></div><div class="line">		msg.Message = <span class="string">"hey"</span></div><div class="line">		msg.Number = <span class="number">123</span></div><div class="line">		<span class="comment">// Note that msg.Name becomes "user" in the JSON</span></div><div class="line">		<span class="comment">// Will output  :   &#123;"user": "Lena", "Message": "hey", "Number": 123&#125;</span></div><div class="line">		c.JSON(http.StatusOK, msg)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	r.GET(<span class="string">"/someXML"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		c.XML(http.StatusOK, gin.H&#123;<span class="string">"message"</span>: <span class="string">"hey"</span>, <span class="string">"status"</span>: http.StatusOK&#125;)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	r.GET(<span class="string">"/someYAML"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		c.YAML(http.StatusOK, gin.H&#123;<span class="string">"message"</span>: <span class="string">"hey"</span>, <span class="string">"status"</span>: http.StatusOK&#125;)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	<span class="comment">// Listen and serve on 0.0.0.0:8080</span></div><div class="line">	r.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Serving-static-files"><a href="#Serving-static-files" class="headerlink" title="Serving static files"></a>Serving static files</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line">	router.Static(<span class="string">"/assets"</span>, <span class="string">"./assets"</span>)</div><div class="line">	router.StaticFS(<span class="string">"/more_static"</span>, http.Dir(<span class="string">"my_file_system"</span>))</div><div class="line">	router.StaticFile(<span class="string">"/favicon.ico"</span>, <span class="string">"./resources/favicon.ico"</span>)</div><div class="line"></div><div class="line">	<span class="comment">// Listen and serve on 0.0.0.0:8080</span></div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="HTML-rendering"><a href="#HTML-rendering" class="headerlink" title="HTML rendering"></a>HTML rendering</h4><p>Using LoadHTMLTemplates()</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line">	router.LoadHTMLGlob(<span class="string">"templates/*"</span>)</div><div class="line">	<span class="comment">//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")</span></div><div class="line">	router.GET(<span class="string">"/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		c.HTML(http.StatusOK, <span class="string">"index.tmpl"</span>, gin.H&#123;</div><div class="line">			<span class="string">"title"</span>: <span class="string">"Main website"</span>,</div><div class="line">		&#125;)</div><div class="line">	&#125;)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>templates/index.tmpl<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span></div><div class="line">		&#123;&#123; .title &#125;&#125;</div><div class="line">	<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>Using templates with same name in different directories</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line">	router.LoadHTMLGlob(<span class="string">"templates/**/*"</span>)</div><div class="line">	router.GET(<span class="string">"/posts/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		c.HTML(http.StatusOK, <span class="string">"posts/index.tmpl"</span>, gin.H&#123;</div><div class="line">			<span class="string">"title"</span>: <span class="string">"Posts"</span>,</div><div class="line">		&#125;)</div><div class="line">	&#125;)</div><div class="line">	router.GET(<span class="string">"/users/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		c.HTML(http.StatusOK, <span class="string">"users/index.tmpl"</span>, gin.H&#123;</div><div class="line">			<span class="string">"title"</span>: <span class="string">"Users"</span>,</div><div class="line">		&#125;)</div><div class="line">	&#125;)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>templates/posts/index.tmpl<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line">&#123;&#123; define "posts/index.tmpl" &#125;&#125;</div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">h1</span>&gt;</span></div><div class="line">	&#123;&#123; .title &#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Using posts/index.tmpl<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line">&#123;&#123; end &#125;&#125;</div></pre></td></tr></table></figure></p>
+<p>templates/users/index.tmpl<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line">&#123;&#123; define "users/index.tmpl" &#125;&#125;</div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">h1</span>&gt;</span></div><div class="line">	&#123;&#123; .title &#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Using users/index.tmpl<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line">&#123;&#123; end &#125;&#125;</div></pre></td></tr></table></figure></p>
+<p>You can also use your own html template render</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"html/template"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line">	html := template.Must(template.ParseFiles(<span class="string">"file1"</span>, <span class="string">"file2"</span>))</div><div class="line">	router.SetHTMLTemplate(html)</div><div class="line">	router.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Redirects"><a href="#Redirects" class="headerlink" title="Redirects"></a>Redirects</h4><p>Issuing a HTTP redirect is easy:</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line">r.GET(<span class="string">"/test"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">	c.Redirect(http.StatusMovedPermanently, <span class="string">"http://www.google.com/"</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>Both internal and external locations are supported.</p>
+<h4 id="Custom-Middleware"><a href="#Custom-Middleware" class="headerlink" title="Custom Middleware"></a>Custom Middleware</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Logger</span><span class="params">()</span> <span class="title">gin</span>.<span class="title">HandlerFunc</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		t := time.Now()</div><div class="line"></div><div class="line">		<span class="comment">// Set example variable</span></div><div class="line">		c.Set(<span class="string">"example"</span>, <span class="string">"12345"</span>)</div><div class="line"></div><div class="line">		<span class="comment">// before request</span></div><div class="line"></div><div class="line">		c.Next()</div><div class="line"></div><div class="line">		<span class="comment">// after request</span></div><div class="line">		latency := time.Since(t)</div><div class="line">		log.Print(latency)</div><div class="line"></div><div class="line">		<span class="comment">// access the status we are sending</span></div><div class="line">		status := c.Writer.Status()</div><div class="line">		log.Println(status)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	r := gin.New()</div><div class="line">	r.Use(Logger())</div><div class="line"></div><div class="line">	r.GET(<span class="string">"/test"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		example := c.MustGet(<span class="string">"example"</span>).(<span class="keyword">string</span>)</div><div class="line"></div><div class="line">		<span class="comment">// it would print: "12345"</span></div><div class="line">		log.Println(example)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	<span class="comment">// Listen and serve on 0.0.0.0:8080</span></div><div class="line">	r.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Using-BasicAuth-middleware"><a href="#Using-BasicAuth-middleware" class="headerlink" title="Using BasicAuth() middleware"></a>Using BasicAuth() middleware</h4><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// simulate some private data</span></div><div class="line"><span class="keyword">var</span> secrets = gin.H&#123;</div><div class="line">	<span class="string">"foo"</span>:    gin.H&#123;<span class="string">"email"</span>: <span class="string">"foo@bar.com"</span>, <span class="string">"phone"</span>: <span class="string">"123433"</span>&#125;,</div><div class="line">	<span class="string">"austin"</span>: gin.H&#123;<span class="string">"email"</span>: <span class="string">"austin@example.com"</span>, <span class="string">"phone"</span>: <span class="string">"666"</span>&#125;,</div><div class="line">	<span class="string">"lena"</span>:   gin.H&#123;<span class="string">"email"</span>: <span class="string">"lena@guapa.com"</span>, <span class="string">"phone"</span>: <span class="string">"523443"</span>&#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	r := gin.Default()</div><div class="line"></div><div class="line">	<span class="comment">// Group using gin.BasicAuth() middleware</span></div><div class="line">	<span class="comment">// gin.Accounts is a shortcut for map[string]string</span></div><div class="line">	authorized := r.Group(<span class="string">"/admin"</span>, gin.BasicAuth(gin.Accounts&#123;</div><div class="line">		<span class="string">"foo"</span>:    <span class="string">"bar"</span>,</div><div class="line">		<span class="string">"austin"</span>: <span class="string">"1234"</span>,</div><div class="line">		<span class="string">"lena"</span>:   <span class="string">"hello2"</span>,</div><div class="line">		<span class="string">"manu"</span>:   <span class="string">"4321"</span>,</div><div class="line">	&#125;))</div><div class="line"></div><div class="line">	<span class="comment">// /admin/secrets endpoint</span></div><div class="line">	<span class="comment">// hit "localhost:8080/admin/secrets</span></div><div class="line">	authorized.GET(<span class="string">"/secrets"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		<span class="comment">// get user, it was set by the BasicAuth middleware</span></div><div class="line">		user := c.MustGet(gin.AuthUserKey).(<span class="keyword">string</span>)</div><div class="line">		<span class="keyword">if</span> secret, ok := secrets[user]; ok &#123;</div><div class="line">			c.JSON(http.StatusOK, gin.H&#123;<span class="string">"user"</span>: user, <span class="string">"secret"</span>: secret&#125;)</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			c.JSON(http.StatusOK, gin.H&#123;<span class="string">"user"</span>: user, <span class="string">"secret"</span>: <span class="string">"NO SECRET :("</span>&#125;)</div><div class="line">		&#125;</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	<span class="comment">// Listen and serve on 0.0.0.0:8080</span></div><div class="line">	r.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Goroutines-inside-a-middleware"><a href="#Goroutines-inside-a-middleware" class="headerlink" title="Goroutines inside a middleware"></a>Goroutines inside a middleware</h4><p>When starting inside a middleware or handler, you <strong>SHOULD NOT</strong> use the original context inside it, you have to use a read-only copy.</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	r := gin.Default()</div><div class="line"></div><div class="line">	r.GET(<span class="string">"/long_async"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		<span class="comment">// create copy to be used inside the goroutine</span></div><div class="line">		cCp := c.Copy()</div><div class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">			<span class="comment">// simulate a long task with time.Sleep(). 5 seconds</span></div><div class="line">			time.Sleep(<span class="number">5</span> * time.Second)</div><div class="line"></div><div class="line">			<span class="comment">// note that you are using the copied context "cCp", IMPORTANT</span></div><div class="line">			log.Println(<span class="string">"Done! in path "</span> + cCp.Request.URL.Path)</div><div class="line">		&#125;()</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	r.GET(<span class="string">"/long_sync"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</div><div class="line">		<span class="comment">// simulate a long task with time.Sleep(). 5 seconds</span></div><div class="line">		time.Sleep(<span class="number">5</span> * time.Second)</div><div class="line"></div><div class="line">		<span class="comment">// since we are NOT using a goroutine, we do not have to copy the context</span></div><div class="line">		log.Println(<span class="string">"Done! in path "</span> + c.Request.URL.Path)</div><div class="line">	&#125;)</div><div class="line"></div><div class="line">	<span class="comment">// Listen and serve on 0.0.0.0:8080</span></div><div class="line">	r.Run(<span class="string">":8080"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Custom-HTTP-configuration"><a href="#Custom-HTTP-configuration" class="headerlink" title="Custom HTTP configuration"></a>Custom HTTP configuration</h4><p>Use <code>http.ListenAndServe()</code> directly, like this:</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line">	http.ListenAndServe(<span class="string">":8080"</span>, router)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	router := gin.Default()</div><div class="line"></div><div class="line">	s := &amp;http.Server&#123;</div><div class="line">		Addr:           <span class="string">":8080"</span>,</div><div class="line">		Handler:        router,</div><div class="line">		ReadTimeout:    <span class="number">10</span> * time.Second,</div><div class="line">		WriteTimeout:   <span class="number">10</span> * time.Second,</div><div class="line">		MaxHeaderBytes: <span class="number">1</span> &lt;&lt; <span class="number">20</span>,</div><div class="line">	&#125;</div><div class="line">	s.ListenAndServe()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Graceful-restart-or-stop"><a href="#Graceful-restart-or-stop" class="headerlink" title="Graceful restart or stop"></a>Graceful restart or stop</h4><p>Do you want to graceful restart or stop your web server?<br>There are some ways this can be done.</p>
+<p>We can use <a href="https://github.com/fvbock/endless" target="_blank" rel="external">fvbock/endless</a> to replace the default <code>ListenAndServe</code>. Refer issue <a href="https://github.com/gin-gonic/gin/issues/296" target="_blank" rel="external">#296</a> for more details.</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line">router := gin.Default()</div><div class="line">router.GET(<span class="string">"/"</span>, handler)</div><div class="line"><span class="comment">// [...]</span></div><div class="line">endless.ListenAndServe(<span class="string">":4242"</span>, router)</div></pre></td></tr></table></figure>
+<p>An alternative to endless:</p>
+<ul>
+<li><a href="https://github.com/braintree/manners" target="_blank" rel="external">manners</a>: A polite Go HTTP server that shuts down gracefully.<h3 id="获取header头信息"><a href="#获取header头信息" class="headerlink" title="获取header头信息"></a>获取header头信息</h3><figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 如果只是Request.Header,返回一个slice, 如果跟上Get方法,则能方便的找到某一项的值</span></div><div class="line">accessToken := c.Request.Header.Get(<span class="string">"Authorization"</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><ul>
+<li>With issues:<ul>
+<li>Use the search tool before opening a new issue.</li>
+<li>Please provide source code and commit sha if you found a bug.</li>
+<li>Review existing issues and provide feedback or react to them.</li>
+</ul>
+</li>
+<li>With pull requests:<ul>
+<li>Open your pull request against develop</li>
+<li>Your pull request should have no more than two commits, if not you should squash them.</li>
+<li>It should pass all tests in the available continuous integrations systems such as TravisCI.</li>
+<li>You should add/modify tests to cover your proposed code changes.</li>
+<li>If your pull request contains a new feature, please document it on the README.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>Awesome project lists using <a href="https://github.com/gin-gonic/gin" target="_blank" rel="external">Gin</a> web framework.</p>
+<ul>
+<li><a href="https://github.com/drone/drone" target="_blank" rel="external">drone</a>: Drone is a Continuous Delivery platform built on Docker, written in Go</li>
+<li><a href="https://github.com/appleboy/gorush" target="_blank" rel="external">gorush</a>: A push notification server written in Go.</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/golang/小坑/" rel="next" title="小坑">
+                <i class="fa fa-chevron-left"></i> 小坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/golang/读取配置文件/" rel="prev" title="读取配置文件">
+                读取配置文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="chimps" />
+          <p class="site-author-name" itemprop="name">chimps</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gin-Web-Framework"><span class="nav-number">1.</span> <span class="nav-text">Gin Web Framework</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Benchmarks"><span class="nav-number">1.1.</span> <span class="nav-text">Benchmarks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gin-v1-stable"><span class="nav-number">1.2.</span> <span class="nav-text">Gin v1. stable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start-using-it"><span class="nav-number">1.3.</span> <span class="nav-text">Start using it</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-Examples"><span class="nav-number">1.4.</span> <span class="nav-text">API Examples</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Using-GET-POST-PUT-PATCH-DELETE-and-OPTIONS"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">Using GET, POST, PUT, PATCH, DELETE and OPTIONS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Parameters-in-path"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">Parameters in path</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Querystring-parameters"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">Querystring parameters</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multipart-Urlencoded-Form"><span class="nav-number">1.4.1.</span> <span class="nav-text">Multipart/Urlencoded Form</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Another-example-query-post-form"><span class="nav-number">1.4.2.</span> <span class="nav-text">Another example: query + post form</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Another-example-upload-file"><span class="nav-number">1.4.3.</span> <span class="nav-text">Another example: upload file</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Grouping-routes"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">Grouping routes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Blank-Gin-without-middleware-by-default"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">Blank Gin without middleware by default</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Using-middleware"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">Using middleware</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#middleware-中间件-使用"><span class="nav-number">1.4.3.4.</span> <span class="nav-text">middleware(中间件)使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model-binding-and-validation"><span class="nav-number">1.4.3.5.</span> <span class="nav-text">Model binding and validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XML-JSON-and-YAML-rendering"><span class="nav-number">1.4.3.6.</span> <span class="nav-text">XML, JSON and YAML rendering</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Serving-static-files"><span class="nav-number">1.4.3.7.</span> <span class="nav-text">Serving static files</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML-rendering"><span class="nav-number">1.4.3.8.</span> <span class="nav-text">HTML rendering</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redirects"><span class="nav-number">1.4.3.9.</span> <span class="nav-text">Redirects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Custom-Middleware"><span class="nav-number">1.4.3.10.</span> <span class="nav-text">Custom Middleware</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Using-BasicAuth-middleware"><span class="nav-number">1.4.3.11.</span> <span class="nav-text">Using BasicAuth() middleware</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Goroutines-inside-a-middleware"><span class="nav-number">1.4.3.12.</span> <span class="nav-text">Goroutines inside a middleware</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Custom-HTTP-configuration"><span class="nav-number">1.4.3.13.</span> <span class="nav-text">Custom HTTP configuration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Graceful-restart-or-stop"><span class="nav-number">1.4.3.14.</span> <span class="nav-text">Graceful restart or stop</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取header头信息"><span class="nav-number">1.4.4.</span> <span class="nav-text">获取header头信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contributing"><span class="nav-number">1.5.</span> <span class="nav-text">Contributing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Example"><span class="nav-number">1.6.</span> <span class="nav-text">Example</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chimps</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
